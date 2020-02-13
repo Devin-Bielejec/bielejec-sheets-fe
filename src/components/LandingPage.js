@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 
-export default LandingPage() {
-    return(
-        <div>
-        </div>
-    )
+export default function LandingPage() {
+  return (
+    <main>
+      <h1>This is the Landing Page!</h1>
+    </main>
+  );
 }
