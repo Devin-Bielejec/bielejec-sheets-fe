@@ -25,14 +25,11 @@ export default function Login() {
     const username = data.username;
     const password = data.password;
 
-    axios(`${baseURL}/login/`, {
-      method: "post",
-      data: {
+    axios
+      .post(`${baseURL}/login/`, {
         username: username,
         password: password
-      },
-      withCredentials: true
-    })
+      })
       .then(res => {
         console.log(res);
         localStorage.setItem("token", res.data.key);
