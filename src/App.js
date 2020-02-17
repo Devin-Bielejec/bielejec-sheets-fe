@@ -1,26 +1,53 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 import axios from "axios";
+import LandingPage from "./components/LandingPage";
+import Search from "./components/Search";
+import Layout from "./components/Layout";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { createGlobalStyle } from "styled-components";
+
+const Global = createGlobalStyle` 
+/* apply a natural box layout model to all elements, but allowing components to change */
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  body {
+    margin: 0;
+    background-color: #FBF9F7;
+    font-family: Arial, sans-serif;
+  }
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Global />
+        <Layout>
+          <Switch>
+            <PrivateRoute path="/search" component={Search} />
+            <Route path="/login">
+              <Login />
+            </Route>
+
+            <Route path="/register">
+              <Register />
+            </Route>
+
+            <Route path="/">
+              <LandingPage />
+            </Route>
+          </Switch>
+        </Layout>
+      </Router>
+    </>
   );
 }
 
