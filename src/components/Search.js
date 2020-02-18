@@ -1,19 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import axios from "axios";
 import { baseURL } from "../utils/index.js";
+import { reducer, initialState } from "../utils/initalState.js";
+import Card from "./Card.js";
+import styled from "styled-components";
+import SideBar from "./SideBar.js";
+
+const DisplayedQuestions = styled.section`
+  display: flex;
+  flex-flow: row wrap;
+  width: 80%;
+  margin: 0 auto;
+`;
+
+const Main = styled.main`
+  display: flex;
+  flex-flow: row nowrap;
+`;
 
 export default function Search() {
-  const [imageSRC, setImageSRC] = useState("");
-
-  axios.post(`${baseURL}/getImage`, { name: "Tacos" }).then(res => {
-    console.log(res);
-    // setImageSRC("../images/Tacos.jpg");
-    //When the RES
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
+  //axios get request to get default questions to show up in search
+  console.log(state.displayedQuestions);
+  //then onChange functions that will make an axios request with the filters clicked
   return (
-    <main>
+    <>
       <h1>This is the search page where we can find questions!</h1>
-      <img src="https://res.cloudinary.com/bestplacepics/image/upload/v1574374150/newpics/San%20Jose%20CA/txhqcasorftywe3p9cjy.jpg" />
-    </main>
+      <Main>
+        <SideBar />
+        <DisplayedQuestions>
+          {state.displayedQuestions.map(question => (
+            <Card question={question} />
+          ))}
+        </DisplayedQuestions>
+      </Main>
+    </>
   );
 }

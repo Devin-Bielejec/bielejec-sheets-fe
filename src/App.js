@@ -32,7 +32,7 @@ function App() {
         <Global />
         <Layout>
           <Switch>
-            <PrivateRoute path="/search" component={Search} />
+            <PrivateRoute path="/" component={Search} />
             <Route path="/login">
               <Login />
             </Route>

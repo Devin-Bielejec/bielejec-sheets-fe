@@ -22,3 +22,14 @@ export const initialState = {
     }
   ]
 };
+
+export const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "START":
+      return { ...state };
+    case "END":
+      return { ...state };
+    default:
+      return "Hi";
+  }
+};
