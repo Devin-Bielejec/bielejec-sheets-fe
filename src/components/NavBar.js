@@ -24,6 +24,7 @@ export default function() {
       <StyledNavLink to="/login">Login</StyledNavLink>
       <StyledNavLink to="/register">Register</StyledNavLink>
       <StyledNavLink to="/">Search</StyledNavLink>
+      <StyledNavLink to="/preview">Cart</StyledNavLink>
     </NavBar>
   );
 }

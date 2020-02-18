@@ -27,7 +27,7 @@ export default function Search() {
     <>
       <h1>This is the search page where we can find questions!</h1>
       <Main>
-        <SideBar />
+        <SideBar state={state} />
         <DisplayedQuestions>
           {state.displayedQuestions.map(question => (
             <Card question={question} />

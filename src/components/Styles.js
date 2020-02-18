@@ -23,6 +23,11 @@ export const Form = styled.form`
   align-items: center;
 `;
 
+export const CheckBoxForm = styled.form`
+  display: flex;
+  flex-flow: column wrap;
+`;
+
 export const SubmitButton = styled.button`
   background-color: #4e4eb2;
   color: #fcfbfa;

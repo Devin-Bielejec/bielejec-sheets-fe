@@ -11,6 +11,7 @@ Document (like shopping cart)
 
 ##Search page
 -side bar with filters for topic/standard/skill
+Usually I would be like I want questiosn about {standard}{topic} and filtered based on {ccregents?}{MC?}
 
 ##State
 document: {
