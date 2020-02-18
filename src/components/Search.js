@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from "react";
 import axios from "axios";
 import { baseURL } from "../utils/index.js";
-import { reducer, initialState } from "../utils/initalState.js";
+import { reducer, initialState } from "../reducers/index.js";
 import Card from "./Card.js";
 import styled from "styled-components";
 import SideBar from "./SideBar.js";

@@ -30,11 +30,39 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "START":
-      return { ...state };
-    case "END":
-      return { ...state };
+    case "GET_DEFAULT_QUESTIONS":
+      return {
+        subjects: action.subjects,
+        topics: action.topics,
+        standards: action.standards,
+        questionTypes: action.questionTypes,
+        displayedQuestions: action.displayedQuestions,
+        ...state
+      };
+    case "LOGIN":
+      return { userID: action.userID, ...state };
+    case "ADD_QUESTION":
+      //action.questionID
+      return {
+        document: {
+          questions: [...state.document.questions, action.questionID]
+        },
+        ...state
+      };
+    case "REMOVE_QUESTION":
+      let currentQuestions = state.document.questions;
+      let filteredQuestions = currentQuestions.filter(
+        questionID => questionID !== action.questionID
+      );
+      return {
+        document: {
+          question: [...filteredQuestions]
+        },
+        ...state
+      };
+    case "CHANGE_ORDER":
+    //worry about this one later
     default:
-      return "Hi";
+      return { ...state };
   }
 };
