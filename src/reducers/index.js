@@ -22,20 +22,46 @@ export const initialState = {
     }
   ],
   //basic sujbects topics stanards, rest will be pulled from db
-  subjects: ["Algebra", "Geometry"],
-  topics: ["AlgebraT1", "AlgebraT2", "GeoT1", "GeoT2"],
-  standards: ["somestandard", "some other standard"],
-  questionTypes: ["Short Answer", "Multiple Choice"]
+  subjects: [
+    { value: "Algebra", selected: false },
+    { value: "Geometry", selected: false }
+  ],
+  topics: [
+    { value: "AlgebraT1", selected: false },
+    { value: "AlgebraT2", selected: false },
+    { value: "GeoT1", selected: false },
+    { value: "GeoT2", selected: false }
+  ],
+  standards: [
+    { value: "someStandard", selected: false },
+    { value: "someOtherStandard", selected: false }
+  ],
+  questionTypes: [
+    { value: "Short Answer", selected: false },
+    { value: "Multiple Choice", selected: false }
+  ]
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_DEFAULT_QUESTIONS":
+    case "GET_DEFAULTS":
       return {
         subjects: action.subjects,
         topics: action.topics,
         standards: action.standards,
         questionTypes: action.questionTypes,
+        ...state
+      };
+    case "UPDATE_SIDEBAR":
+      return {
+        subjects: action.subjects,
+        topics: action.topics,
+        standards: action.standards,
+        questionTypes: action.questionTypes,
+        ...state
+      };
+    case "UPDATE_DISPLAYED_QUESTIONS":
+      return {
         displayedQuestions: action.displayedQuestions,
         ...state
       };

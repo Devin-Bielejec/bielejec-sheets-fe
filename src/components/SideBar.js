@@ -7,17 +7,21 @@ const SideBarStyled = styled.section`
   padding: 10px;
   margin: 10px;
 `;
-export default function SideBar({ state }) {
+export default function SideBar({ state, dispatch }) {
   const topics = state.topics;
   const subjects = state.subjects;
   const standards = state.standards;
   const questionTypes = state.questionTypes;
   return (
     <SideBarStyled>
-      <CheckList items={topics} itemName={"Topics"} />
-      <CheckList items={subjects} itemName={"Subjects"} />
-      <CheckList items={standards} itemName={"Standards"} />
-      <CheckList items={questionTypes} itemName={"Question Types"} />
+      <CheckList items={subjects} itemName={"Subjects"} dispatch={dispatch} />
+      <CheckList items={topics} itemName={"Topics"} dispatch={dispatch} />
+      <CheckList items={standards} itemName={"Standards"} dispatch={dispatch} />
+      <CheckList
+        items={questionTypes}
+        itemName={"Question Types"}
+        dispatch={dispatch}
+      />
     </SideBarStyled>
   );
 }
