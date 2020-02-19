@@ -1,6 +1,22 @@
 export const initialState = {
   document: {
-    questions: []
+    questions: [
+      {
+        imgURL:
+          "https://res.cloudinary.com/bestplacepics/image/upload/v1574374047/newpics/Albuquerque%20NM/bdy1xww82uyb0oj5ruak.png",
+        id: 1
+      },
+      {
+        imgURL:
+          "https://res.cloudinary.com/bestplacepics/image/upload/v1574374117/newpics/Miami%20FL/hwq5hfr17vhwrpsgx4dt.jpg",
+        id: 2
+      },
+      {
+        imgURL:
+          "https://res.cloudinary.com/bestplacepics/image/upload/v1574373981/newpics/Oklahoma%20City%20OK/vssi3ghrkwxbtpysptbn.jpg",
+        id: 3
+      }
+    ]
     //options etc
   },
   userID: 1,
@@ -46,22 +62,23 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "UPDATE_DISPLAYED_QUESTIONS":
       return {
+        ...state,
         subjects: action.subjects,
         topics: action.topics,
         standards: action.standards,
         questionTypes: action.questionTypes,
-        displayedQuestions: action.displayedQuestions,
-        ...state
+        displayedQuestions: action.displayedQuestions
       };
     case "LOGIN":
       return { userID: action.userID, ...state };
     case "ADD_QUESTION":
       //action.questionID
       return {
+        ...state,
         document: {
+          ...state.document,
           questions: [...state.document.questions, action.questionID]
-        },
-        ...state
+        }
       };
     case "REMOVE_QUESTION":
       let currentQuestions = state.document.questions;
@@ -69,13 +86,20 @@ export const reducer = (state = initialState, action) => {
         questionID => questionID !== action.questionID
       );
       return {
+        ...state,
         document: {
-          question: [...filteredQuestions]
-        },
-        ...state
+          ...state.document,
+          questions: [...filteredQuestions]
+        }
       };
-    case "CHANGE_ORDER":
-    //worry about this one later
+    case "UPDATE_ORDER":
+      return {
+        ...state,
+        document: {
+          ...state.document,
+          questions: action.updatedQuestions
+        }
+      };
     default:
       return { ...state };
   }

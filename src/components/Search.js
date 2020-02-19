@@ -1,7 +1,6 @@
 import React, { useState, useReducer, useEffect } from "react";
 import axios from "axios";
 import { baseURL } from "../utils/index.js";
-import { reducer, initialState } from "../reducers/index.js";
 import Card from "./Card.js";
 import styled from "styled-components";
 import SideBar from "./SideBar.js";
@@ -18,10 +17,8 @@ const Main = styled.main`
   flex-flow: row nowrap;
 `;
 
-export default function Search() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export default function Search({ state, dispatch }) {
   //axios get request to get default questions to show up in search
-  console.log(state.displayedQuestions);
 
   //axios call when the component mounts -
   useEffect(() => {
