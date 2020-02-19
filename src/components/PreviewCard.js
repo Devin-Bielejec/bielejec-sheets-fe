@@ -38,10 +38,11 @@ export default function Card({
   const imgURL = question.imgURL;
 
   //We'll add ability to add more than one question later
-  const handleClick = id => {
+  const handleClick = (id, index) => {
     dispatch({
       type: "REMOVE_QUESTION",
-      questionID: id
+      questionID: id,
+      index: index
     });
   };
 
@@ -60,7 +61,9 @@ export default function Card({
           draggableStyles={provided.draggableProps.style}
         >
           <Image src={imgURL} />
-          <Button onClick={() => handleClick(id)}>Remove Question</Button>
+          <Button onClick={() => handleClick(id, index)}>
+            Remove Question
+          </Button>
         </StyledCard>
       )}
     </Draggable>

@@ -29,17 +29,17 @@ export default function Card({ question, dispatch }) {
   const imgURL = question.imgURL;
 
   //We'll add ability to add more than one question later
-  const handleClick = id => {
+  const handleClick = question => {
     dispatch({
       type: "ADD_QUESTION",
-      questionID: id
+      question: question
     });
   };
 
   return (
     <StyledCard id={id}>
       <Image src={imgURL} />
-      <Button onClick={() => handleClick(id)}>Add Question</Button>
+      <Button onClick={() => handleClick(question)}>Add Question</Button>
     </StyledCard>
   );
 }

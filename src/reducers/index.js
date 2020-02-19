@@ -72,19 +72,16 @@ export const reducer = (state = initialState, action) => {
     case "LOGIN":
       return { userID: action.userID, ...state };
     case "ADD_QUESTION":
-      //action.questionID
       return {
         ...state,
         document: {
           ...state.document,
-          questions: [...state.document.questions, action.questionID]
+          questions: [...state.document.questions, action.question]
         }
       };
     case "REMOVE_QUESTION":
-      let currentQuestions = state.document.questions;
-      let filteredQuestions = currentQuestions.filter(
-        question => question.id !== action.questionID
-      );
+      let filteredQuestions = [...state.document.questions];
+      filteredQuestions.splice(action.index, 1);
       return {
         ...state,
         document: {
