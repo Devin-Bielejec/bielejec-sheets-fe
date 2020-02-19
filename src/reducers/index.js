@@ -44,24 +44,12 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_DEFAULTS":
-      return {
-        subjects: action.subjects,
-        topics: action.topics,
-        standards: action.standards,
-        questionTypes: action.questionTypes,
-        ...state
-      };
-    case "UPDATE_SIDEBAR":
-      return {
-        subjects: action.subjects,
-        topics: action.topics,
-        standards: action.standards,
-        questionTypes: action.questionTypes,
-        ...state
-      };
     case "UPDATE_DISPLAYED_QUESTIONS":
       return {
+        subjects: action.subjects,
+        topics: action.topics,
+        standards: action.standards,
+        questionTypes: action.questionTypes,
         displayedQuestions: action.displayedQuestions,
         ...state
       };

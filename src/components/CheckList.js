@@ -2,7 +2,8 @@ import React, { useState, useReducer, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { CheckBoxForm, StyledInput, Warning } from "./Styles.js";
 import styled from "styled-components";
-import { axiosWithAuth, baseURL } from "../utils/index.js";
+import { baseURL } from "../utils/index.js";
+import axios from "axios";
 
 export default function CheckList({ items, itemName, dispatch }) {
   const { register, handleSubmit, formState, errors } = useForm({
@@ -13,7 +14,7 @@ export default function CheckList({ items, itemName, dispatch }) {
 
   useEffect(() => {
     //get data from axios request everytime a currentItems are changed, then dispatch it to the reducer
-    axiosWithAuth()
+    axios
       .post(`${baseURL}/getQuestionsByFilter`, { itemName: [...currentItems] })
       .then(res => {
         console.log(res);

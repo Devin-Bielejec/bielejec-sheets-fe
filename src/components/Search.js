@@ -23,13 +23,18 @@ export default function Search() {
   //axios get request to get default questions to show up in search
   console.log(state.displayedQuestions);
 
-  //axios call when the component mounts
+  //axios call when the component mounts -
   useEffect(() => {
-    axios.post(`${baseURL}/getQuestionsByFilter`, {
-      topics: [],
-      subjects: [],
-      standards: [],
-      questionTypes: []
+    axios.get(`${baseURL}/getQuestionsByFilter`, {}).then(res => {
+      console.log(res);
+      dispatch({
+        type: "UPDATE_DISPLAYED_QUESTIONS",
+        subjects: [...res.data.subjects],
+        topics: [...res.data.topics],
+        standards: [...res.data.standards],
+        questionTypes: [...res.data.questionTypes],
+        displayedQuestions: [...res.data.displayedQuestions]
+      });
     });
   }, []);
   //then onChange functions that will make an axios request with the filters clicked
@@ -40,7 +45,7 @@ export default function Search() {
         <SideBar state={state} dispatch={dispatch} />
         <DisplayedQuestions>
           {state.displayedQuestions.map(question => (
-            <Card question={question} />
+            <Card question={question} dispatch={dispatch} />
           ))}
         </DisplayedQuestions>
       </Main>
