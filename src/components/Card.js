@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Button } from "./Styles.js";
 
 const StyledCard = styled.div`
   padding: 5px;
@@ -17,12 +18,6 @@ const Image = styled.img`
   width: 90%;
 `;
 
-const Button = styled.button`
-  background-color: blue;
-  color: white;
-  width: 100px;
-  margin: 10px;
-`;
 export default function Card({ question, dispatch }) {
   console.log(question);
   const id = question.id;

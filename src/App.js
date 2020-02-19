@@ -37,6 +37,12 @@ function App() {
         <Global />
         <Layout>
           <Switch>
+            <PrivateRoute
+              path="/create"
+              state={state}
+              dispatch={dispatch}
+              component={CreateDocument}
+            />
             <Route path="/login">
               <Login />
             </Route>
@@ -52,10 +58,6 @@ function App() {
             <Route path="/preview">
               <PreviewDocument state={state} dispatch={dispatch} />
             </Route>
-
-            <PrivateRoute path="/create">
-              <CreateDocument state={state} dispatch={dispatch} />
-            </PrivateRoute>
           </Switch>
         </Layout>
       </Router>

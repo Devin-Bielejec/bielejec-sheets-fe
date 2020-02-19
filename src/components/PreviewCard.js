@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import { Button } from "./Styles.js";
+
 const StyledCard = styled.div`
   padding: 5px;
-  width: 100%;
+  width: 50%;
   border: 1px solid black;
   border-radius: 15px;
   margin: 20px;
@@ -21,19 +23,13 @@ const Image = styled.img`
   width: 90%;
 `;
 
-const Button = styled.button`
-  background-color: blue;
-  color: white;
-  width: 100px;
-  margin: 10px;
+const IndexTitle = styled.h2`
+  align-self: start;
+  padding-left: 10px;
+  z-index: -10;
 `;
-export default function Card({
-  question,
-  dispatch,
-  isDragging,
-  draggableStyles,
-  index
-}) {
+
+export default function PreviewCard({ question, dispatch, index }) {
   const id = question.id;
   const imgURL = question.imgURL;
 
@@ -48,8 +44,8 @@ export default function Card({
 
   return (
     <Draggable
-      key={`item-${question.id}`}
-      draggableId={`item-${question.id}`}
+      key={`item-${index}`}
+      draggableId={`item-${index}`}
       index={index}
     >
       {(provided, snapshot) => (
@@ -60,8 +56,9 @@ export default function Card({
           isDragging={snapshot.isDragging}
           draggableStyles={provided.draggableProps.style}
         >
+          <IndexTitle>{index}</IndexTitle>
           <Image src={imgURL} />
-          <Button onClick={() => handleClick(id, index)}>
+          <Button onClick={() => handleClick(question.id, index)}>
             Remove Question
           </Button>
         </StyledCard>

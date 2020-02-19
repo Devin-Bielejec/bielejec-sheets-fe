@@ -28,21 +28,24 @@ export const CheckBoxForm = styled.form`
   flex-flow: column wrap;
 `;
 
-export const SubmitButton = styled.button`
+export const Button = styled.button`
   background-color: #4e4eb2;
   color: #fcfbfa;
   border: 1px solid #4e4eb2;
   box-shadow: none;
   padding: 0.75em 2em;
-  width: 100%;
+  width: 30%;
   font-size: 1rem;
   border-radius: 0;
-  opacity: 0.7;
+  opacity: 1;
   margin-top: 0.75em;
   transition: 0.25s opacity cubic-bezier(0.98, 0.26, 0.52, 0.96);
   &:hover {
     cursor: pointer;
   }
+`;
+export const SubmitButton = styled(Button)`
+  width: 100%;
   ${props =>
     !props.disabled &&
     css`

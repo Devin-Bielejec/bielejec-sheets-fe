@@ -29,7 +29,7 @@ export default function Register() {
       })
       .then(res => {
         localStorage.setItem("token", res.data.key);
-        history.push("/game");
+        history.push("/");
       })
       .catch(err => console.log(err));
   };
