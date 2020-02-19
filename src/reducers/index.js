@@ -83,7 +83,7 @@ export const reducer = (state = initialState, action) => {
     case "REMOVE_QUESTION":
       let currentQuestions = state.document.questions;
       let filteredQuestions = currentQuestions.filter(
-        questionID => questionID !== action.questionID
+        question => question.id !== action.questionID
       );
       return {
         ...state,

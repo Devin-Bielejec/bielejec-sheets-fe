@@ -45,8 +45,6 @@ export default function Card({
     });
   };
 
-  console.log(isDragging);
-
   return (
     <Draggable
       key={`item-${question.id}`}

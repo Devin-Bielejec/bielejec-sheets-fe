@@ -1,6 +1,6 @@
 import React from "react";
 import PreviewCard from "./PreviewCard.js";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 // a little function to help us with reordering the result
@@ -11,27 +11,6 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
-
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250
-});
 
 const QuestionList = styled.div`
     background: ${props => (props.isDraggingOver ? "lightblue" : "lightgrey")}
@@ -66,6 +45,10 @@ export default function PreviewDocument({ state, dispatch }) {
       type: "UPDATE_ORDER",
       updatedQuestions: items
     });
+  }
+
+  if (questions.length === 0) {
+    return <p>No items!</p>;
   }
 
   return (
