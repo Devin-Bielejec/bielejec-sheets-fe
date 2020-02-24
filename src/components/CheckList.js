@@ -5,26 +5,12 @@ import styled from "styled-components";
 import { baseURL } from "../utils/index.js";
 import axios from "axios";
 
-export default function CheckList({ items, itemName, dispatch }) {
+export default function CheckList({ items, itemName, dispatch, handleChange }) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange"
   });
 
   const [currentItems, setCurrentItems] = useState([...items]);
-
-  useEffect(() => {
-    //get data from axios request everytime a currentItems are changed, then dispatch it to the reducer
-    axios
-      .post(`${baseURL}/getQuestionsByFilter`, { itemName: [...currentItems] })
-      .then(res => {
-        console.log(res);
-        //then we'll most likely dispatch in here
-        dispatch({
-          type: "UPDATE_DISPLAYED_QUESTIONS",
-          displayedQuestions: res.data.displayedQuestions
-        });
-      });
-  }, [currentItems]);
 
   const toggleCheckBox = valueToggled => {
     let currentItemsCopy = currentItems.map(item => {
@@ -35,6 +21,12 @@ export default function CheckList({ items, itemName, dispatch }) {
     });
     setCurrentItems(currentItemsCopy);
   };
+
+  const handleChangeCheckList = data => {
+    let currentSelectedItems = [...currentItems].filter(item => item.selected);
+    handleChange({ name: itemName, values: [...currentSelectedItems] });
+  };
+
   return (
     <CheckBoxForm>
       <h2>{itemName}</h2>
@@ -47,6 +39,7 @@ export default function CheckList({ items, itemName, dispatch }) {
               onClick={() => toggleCheckBox(item.value)}
             >
               <input
+                onChange={handleChangeCheckList}
                 key={item}
                 type="checkbox"
                 name={item.value}
