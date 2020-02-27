@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CheckList from "./CheckList.js";
 import axios from "axios";
@@ -9,56 +9,32 @@ const SideBarStyled = styled.section`
   padding: 10px;
   margin: 10px;
 `;
-export default function SideBar({ state, dispatch }) {
-  const topics = state.topics;
-  const subjects = state.subjects;
-  const standards = state.standards;
-  const questionTypes = state.questionTypes;
-
-  const [currentSelectedItems, setCurrentSelectedItems] = useState({});
-
-  const handleChange = data => {
-    console.log(data);
-    let currentSelectedItemsCopy = { ...data, ...currentSelectedItems };
-    setCurrentSelectedItems(currentSelectedItemsCopy);
-    console.log(currentSelectedItemsCopy);
-    axios
-      .post(`${baseURL}/getQuestionsByFilter`, currentSelectedItemsCopy)
-      .then(res => {
-        console.log(res);
-        //then we'll most likely dispatch in here
-        dispatch({
-          type: "UPDATE_DISPLAYED_QUESTIONS",
-          displayedQuestions: res.data.displayedQuestions
-        });
-      });
-  };
-
+export default function SideBar({ state, dispatch, handleChange }) {
   /* itemNames are based on what back end wants */
   return (
     <SideBarStyled>
       <CheckList
         handleChange={handleChange}
-        items={subjects}
-        itemName={"subject"}
+        items={state.subjects}
+        itemName={"subjects"}
         dispatch={dispatch}
       />
       <CheckList
         handleChange={handleChange}
-        items={topics}
-        itemName={"topic"}
+        items={state.topics}
+        itemName={"topics"}
         dispatch={dispatch}
       />
       <CheckList
         handleChange={handleChange}
-        items={standards}
-        itemName={"standard"}
+        items={state.standards}
+        itemName={"standards"}
         dispatch={dispatch}
       />
       <CheckList
         handleChange={handleChange}
-        items={questionTypes}
-        itemName={"type"}
+        items={state.types}
+        itemName={"types"}
         dispatch={dispatch}
       />
     </SideBarStyled>

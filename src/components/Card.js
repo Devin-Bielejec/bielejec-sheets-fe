@@ -19,7 +19,6 @@ const Image = styled.img`
 `;
 
 export default function Card({ question, dispatch }) {
-  console.log(question);
   const id = question.id;
   const imgURL = question.imgURL;
 

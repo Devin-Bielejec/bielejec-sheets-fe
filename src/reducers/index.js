@@ -1,61 +1,17 @@
+import axios from "axios";
+
 export const initialState = {
   document: {
-    questions: [
-      {
-        imgURL:
-          "https://res.cloudinary.com/bestplacepics/image/upload/v1574374047/newpics/Albuquerque%20NM/bdy1xww82uyb0oj5ruak.png",
-        id: 1
-      },
-      {
-        imgURL:
-          "https://res.cloudinary.com/bestplacepics/image/upload/v1574374117/newpics/Miami%20FL/hwq5hfr17vhwrpsgx4dt.jpg",
-        id: 2
-      },
-      {
-        imgURL:
-          "https://res.cloudinary.com/bestplacepics/image/upload/v1574373981/newpics/Oklahoma%20City%20OK/vssi3ghrkwxbtpysptbn.jpg",
-        id: 3
-      }
-    ]
+    questions: []
     //options etc
   },
   userID: 1,
-  displayedQuestions: [
-    {
-      imgURL:
-        "https://res.cloudinary.com/bestplacepics/image/upload/v1574374047/newpics/Albuquerque%20NM/bdy1xww82uyb0oj5ruak.png",
-      id: 1
-    },
-    {
-      imgURL:
-        "https://res.cloudinary.com/bestplacepics/image/upload/v1574374117/newpics/Miami%20FL/hwq5hfr17vhwrpsgx4dt.jpg",
-      id: 2
-    },
-    {
-      imgURL:
-        "https://res.cloudinary.com/bestplacepics/image/upload/v1574373981/newpics/Oklahoma%20City%20OK/vssi3ghrkwxbtpysptbn.jpg",
-      id: 3
-    }
-  ],
+  displayedQuestions: [],
   //basic sujbects topics stanards, rest will be pulled from db
-  subjects: [
-    { value: "Algebra", selected: false },
-    { value: "Geometry", selected: false }
-  ],
-  topics: [
-    { value: "AlgebraT1", selected: false },
-    { value: "AlgebraT2", selected: false },
-    { value: "GeoT1", selected: false },
-    { value: "GeoT2", selected: false }
-  ],
-  standards: [
-    { value: "someStandard", selected: false },
-    { value: "someOtherStandard", selected: false }
-  ],
-  questionTypes: [
-    { value: "Short Answer", selected: false },
-    { value: "Multiple Choice", selected: false }
-  ]
+  subjects: [],
+  topics: [],
+  standards: [],
+  types: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -63,11 +19,26 @@ export const reducer = (state = initialState, action) => {
     case "UPDATE_DISPLAYED_QUESTIONS":
       return {
         ...state,
-        subjects: action.subjects,
-        topics: action.topics,
-        standards: action.standards,
-        questionTypes: action.questionTypes,
         displayedQuestions: action.displayedQuestions
+      };
+    case "UPDATE_SIDEBAR_BY_SUBJECT":
+      return {
+        ...state,
+        topics: action.topics,
+        subjects: action.subjects,
+        standards: action.standards,
+        types: action.types
+      };
+    case "TOGGLE_SIDEBAR_OPTION":
+      //toggling happens here
+      return {
+        ...state,
+        [action.sideBarTitle]: state[action.sideBarTitle].map(stateItem => {
+          if (stateItem.value === action.itemValue) {
+            stateItem.selected = !stateItem.selected;
+          }
+          return stateItem;
+        })
       };
     case "LOGIN":
       return { userID: action.userID, ...state };

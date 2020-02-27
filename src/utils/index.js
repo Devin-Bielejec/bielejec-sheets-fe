@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const baseURL = "https://bielejec-sheets-be.herokuapp.com";
-// export const baseURL = "http://localhost:4000";
+// export const baseURL = "https://bielejec-sheets-be.herokuapp.com";
+export const baseURL = "http://localhost:4000";
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {

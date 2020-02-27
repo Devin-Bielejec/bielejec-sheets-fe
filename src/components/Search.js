@@ -18,28 +18,70 @@ const Main = styled.main`
 `;
 
 export default function Search({ state, dispatch }) {
-  //axios get request to get default questions to show up in search
+  console.log(state);
+  //Default questions - nothing selected
 
-  //axios call when the component mounts -
-  useEffect(() => {
-    axios.get(`${baseURL}/getQuestionsByFilter`, {}).then(res => {
-      console.log(res);
-      dispatch({
-        type: "UPDATE_DISPLAYED_QUESTIONS",
-        subjects: [...res.data.subjects],
-        topics: [...res.data.topics],
-        standards: [...res.data.standards],
-        questionTypes: [...res.data.questionTypes],
-        displayedQuestions: [...res.data.displayedQuestions]
+  function handleChange(key, itemValue) {
+    //update values on sidebar via the state - toggled selected on property
+
+    //item is {value: , selected: }
+    let copyState = {
+      ...state,
+      [key]: state[key].map(item => {
+        console.log(item, itemValue);
+        if (item.value === itemValue) {
+          item.selected = !item.selected;
+        }
+        return item;
+      })
+    };
+
+    console.log(copyState);
+
+    // update displayed questions
+    axios
+      .post(`${baseURL}/questions/questionsByFilter`, {
+        topic: copyState.topics,
+        subject: copyState.subjects,
+        standard: copyState.standards,
+        type: copyState.types
+      })
+      .then(res => {
+        console.log(res);
+        dispatch({
+          type: "UPDATE_DISPLAYED_QUESTIONS",
+          displayedQuestions: [...res.data.displayedQuestions]
+        });
       });
-    });
-  }, []);
-  //then onChange functions that will make an axios request with the filters clicked
+
+    if (key === "subject") {
+      //update sidebar
+      axios
+        .post(`${baseURL}/questions/sideBarBySubjects`, { subjects: itemValue })
+        .then(res => {
+          console.log("inside sidebarbysubject", res);
+          //keep subjects that are checked as selected - everything else resets
+
+          dispatch({
+            type: "UPDATE_SIDEBAR_OPTIONS",
+            subjects: state.subjects,
+            topics: [...res.data.topics],
+            standards: [...res.data.standards],
+            types: [...res.data.types]
+          });
+        });
+    }
+  }
+
   return (
     <>
       <h1>This is the search page where we can find questions!</h1>
       <Main>
-        <SideBar state={state} dispatch={dispatch} />
+        <SideBar
+          state={state}
+          dispatch={dispatch}
+          handleChange={handleChange}
+        />
         <DisplayedQuestions>
           {state.displayedQuestions.map(question => (
             <Card question={question} dispatch={dispatch} />

@@ -11,6 +11,7 @@ import { createGlobalStyle } from "styled-components";
 import { reducer, initialState } from "./reducers/index.js";
 import CreateDocument from "./components/CreateDocument.js";
 import PreviewDocument from "./components/PreviewDocument.js";
+import { baseURL } from "./utils/index";
 
 const Global = createGlobalStyle` 
 /* apply a natural box layout model to all elements, but allowing components to change */
@@ -30,7 +31,32 @@ const Global = createGlobalStyle`
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
+
+  React.useEffect(() => {
+    // get default displayed questions
+    axios.post(`${baseURL}/questions/defaultQuestions`).then(res => {
+      console.log(res);
+      dispatch({
+        type: "UPDATE_DISPLAYED_QUESTIONS",
+        displayedQuestions: [...res.data.displayedQuestions]
+      });
+    });
+
+    //get default sidebar
+    axios
+      .post(`${baseURL}/questions/sideBarBySubjects`, { subjects: [] })
+      .then(res => {
+        console.log("inside sidebarbysubject", res);
+        dispatch({
+          type: "UPDATE_SIDEBAR_BY_SUBJECT",
+          subjects: [...res.data.subjects],
+          topics: [...res.data.topics],
+          standards: [...res.data.standards],
+          types: [...res.data.types]
+        });
+      });
+  }, []);
+
   return (
     <>
       <Router>

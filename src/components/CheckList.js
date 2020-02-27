@@ -9,37 +9,19 @@ export default function CheckList({ items, itemName, dispatch, handleChange }) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange"
   });
-
-  const [currentItems, setCurrentItems] = useState([...items]);
-
-  const toggleCheckBox = valueToggled => {
-    let currentItemsCopy = currentItems.map(item => {
-      if (item.value === valueToggled) {
-        item.selected = !item.selected;
-      }
-      return item;
-    });
-    setCurrentItems(currentItemsCopy);
-  };
-
-  const handleChangeCheckList = data => {
-    let currentSelectedItems = [...currentItems].filter(item => item.selected);
-    handleChange({ name: itemName, values: [...currentSelectedItems] });
-  };
-
   return (
     <CheckBoxForm>
-      <h2>{itemName}</h2>
+      <h2>{itemName.charAt(0).toUpperCase() + itemName.slice(1)}</h2>
       {items.map(item => {
         return (
           <>
             <label
               key={item}
               for={item.value}
-              onClick={() => toggleCheckBox(item.value)}
+              onClick={() => handleChange(itemName, item.value)}
             >
               <input
-                onChange={handleChangeCheckList}
+                // onChange={() => handleChange(itemName, item.value)}
                 key={item}
                 type="checkbox"
                 name={item.value}
