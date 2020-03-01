@@ -21,10 +21,11 @@ const StyledNavLink = styled(NavLink)`
 export default function() {
   return (
     <NavBar>
-      <StyledNavLink to="/">Home</StyledNavLink>
+      <StyledNavLink to="/">Search</StyledNavLink>
+      <StyledNavLink to="/preview">Preview</StyledNavLink>
+      <StyledNavLink to="/create">Create</StyledNavLink>
       <StyledNavLink to="/login">Login</StyledNavLink>
       <StyledNavLink to="/register">Register</StyledNavLink>
-      <StyledNavLink to="/search">Search</StyledNavLink>
     </NavBar>
   );
 }

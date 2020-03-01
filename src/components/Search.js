@@ -1,19 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import axios from "axios";
 import { baseURL } from "../utils/index.js";
+import Card from "./Card.js";
+import styled from "styled-components";
+import SideBar from "./SideBar.js";
 
-export default function Search() {
-  const [imageSRC, setImageSRC] = useState("");
+const DisplayedQuestions = styled.section`
+  display: flex;
+  flex-flow: row wrap;
+  width: 80%;
+  margin: 0 auto;
+`;
 
-  axios.post(`${baseURL}/getImage`, { name: "Tacos" }).then(res => {
-    console.log(res);
-    // setImageSRC("../images/Tacos.jpg");
-    //When the RES
-  });
+const Main = styled.main`
+  display: flex;
+  flex-flow: row nowrap;
+`;
+
+export default function Search({ state, dispatch, handleChange }) {
+  console.log(state);
+  //Default questions - nothing selected
+
   return (
-    <main>
+    <>
       <h1>This is the search page where we can find questions!</h1>
-      <img src="https://res.cloudinary.com/bestplacepics/image/upload/v1574374150/newpics/San%20Jose%20CA/txhqcasorftywe3p9cjy.jpg" />
-    </main>
+      <Main>
+        <SideBar
+          state={state}
+          dispatch={dispatch}
+          handleChange={handleChange}
+        />
+        <DisplayedQuestions>
+          {state.displayedQuestions.map(question => (
+            <Card question={question} dispatch={dispatch} />
+          ))}
+        </DisplayedQuestions>
+      </Main>
+    </>
   );
 }
