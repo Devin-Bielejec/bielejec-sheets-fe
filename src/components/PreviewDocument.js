@@ -26,6 +26,7 @@ const Section = styled.section`
 `;
 
 export default function PreviewDocument({ state, dispatch }) {
+  console.log("preview document", state);
   const questions = state.document.questions;
 
   function onDragEnd(result) {
