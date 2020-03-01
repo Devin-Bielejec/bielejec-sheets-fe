@@ -23,7 +23,7 @@ export default function Register() {
     const password = data.password;
 
     axios
-      .post(`${baseURL}/register/`, {
+      .post(`${baseURL}/auth/register/`, {
         username: username,
         password: password
       })
