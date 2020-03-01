@@ -26,7 +26,7 @@ export default function Login() {
     const password = data.password;
 
     axios
-      .post(`${baseURL}/login/`, {
+      .post(`${baseURL}/auth/login/`, {
         username: username,
         password: password
       })
