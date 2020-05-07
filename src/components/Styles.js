@@ -46,11 +46,19 @@ export const Button = styled.button`
 `;
 export const SubmitButton = styled(Button)`
   width: 100%;
-  ${props =>
+  opacity: 0.5;
+  background-color: #4e4eb2;
+  &:hover {
+    cursor: default;
+  }
+  ${(props) =>
     !props.disabled &&
     css`
       background-color: #4e4eb2;
       opacity: 1;
+      &:hover {
+        cursor: pointer;
+      }
     `}
 `;
 
