@@ -23,6 +23,12 @@ const Image = styled.img`
 export default function Card({ question, dispatch }) {
   const id = question.id;
   const imgURL = question.imgURL;
+  const [questionCount, setQuestionCount] = React.useState(1);
+  const [questionToAdd, setQuestionToAdd] = React.useState({ ...question });
+
+  function handleQuestionCount(e) {
+    setQuestionCount(e.target.value);
+  }
 
   //We'll add ability to add more than one question later
   const handleClick = (question) => {
@@ -36,11 +42,10 @@ export default function Card({ question, dispatch }) {
     <StyledCard key={id} id={id}>
       <Image src={imgURL} />
       {/* button to add integer amounts*/}
-      <Button onClick={() => handleClick(question)}>Add Question</Button>
       <form>
         {Object.keys(question.kwargs).map((key) => {
           let curArr = question.kwargs[key];
-          console.log(curArr);
+
           //if kwarg is array 1 < len < 7 --> radio buttons
           if (curArr.length > 1 && curArr.length < 7) {
             //radio buttons
@@ -96,6 +101,13 @@ export default function Card({ question, dispatch }) {
           }
         })}
       </form>
+      <input
+        type="number"
+        name="questionCount"
+        value={questionCount}
+        onChange={handleQuestionCount}
+      />
+      <Button onClick={() => handleClick(question)}>Add Question</Button>
     </StyledCard>
   );
 }
