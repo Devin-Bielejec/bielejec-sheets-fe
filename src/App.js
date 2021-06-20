@@ -34,27 +34,140 @@ function App() {
 
   React.useEffect(() => {
     // get default displayed questions
-    axios.post(`${baseURL}/questions/defaultQuestions`).then(res => {
+    axios.get(`${baseURL}/questions`).then((res) => {
       console.log(res);
+
       dispatch({
         type: "UPDATE_DISPLAYED_QUESTIONS",
-        displayedQuestions: [...res.data.displayedQuestions]
+        displayedQuestions: [...res.data],
       });
     });
 
+    //for testing
+    let data = [
+      {
+        id: "OneStepEquationWorksheet",
+        standard: "A.REI.B.3",
+        skill: "Solve linear equations",
+        subSkill: null,
+        topic: "Expressions And Equations",
+        subTopic: null,
+        notes: "",
+        type: "Worksheet",
+        kwargs: {
+          firstStep: [
+            {
+              value: "add",
+              toolTip: "Operation to solve",
+            },
+            {
+              value: "subtract",
+              toolTip: "Operation to solve",
+            },
+            {
+              value: "multiply",
+              toolTip: "Operation to solve",
+            },
+            {
+              value: "divide",
+              toolTip: "Operation to solve",
+            },
+          ],
+          difficulty: [
+            {
+              value: "1",
+              toolTip: "Positive number result",
+            },
+            {
+              value: "2",
+              toolTip: "Postive number result with larger numbers",
+            },
+            {
+              value: "3",
+              toolTip: "Negative number result",
+            },
+          ],
+          variable: [
+            {
+              value: "d",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "e",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "g",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "h",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "j",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "k",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "m",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "n",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "p",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "r",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "s",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "w",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "x",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "y",
+              toolTip: "Variable to use",
+            },
+            {
+              value: "z",
+              toolTip: "Variable to use",
+            },
+          ],
+        },
+      },
+    ];
+    dispatch({
+      type: "UPDATE_DISPLAYED_QUESTIONS",
+      displayedQuestions: [...data],
+    });
+
     //get default sidebar
-    axios
-      .post(`${baseURL}/questions/sideBarBySubjects`, { subjects: [] })
-      .then(res => {
-        console.log("inside sidebarbysubject", res);
-        dispatch({
-          type: "UPDATE_SIDEBAR_BY_SUBJECT",
-          subjects: [...res.data.subjects],
-          topics: [...res.data.topics],
-          standards: [...res.data.standards],
-          types: [...res.data.types]
-        });
+    axios.post(`${baseURL}/questions`, { subjects: [] }).then((res) => {
+      console.log("inside sidebarbysubject", res);
+      dispatch({
+        type: "UPDATE_SIDEBAR_BY_SUBJECT",
+        subjects: [...res.data.subjects],
+        topics: [...res.data.topics],
+        standards: [...res.data.standards],
+        types: [...res.data.types],
       });
+    });
   }, []);
 
   function handleChange(key, itemValue) {
@@ -63,13 +176,13 @@ function App() {
     //item is {value: , selected: }
     let copyState = {
       ...state,
-      [key]: state[key].map(item => {
+      [key]: state[key].map((item) => {
         console.log(item, itemValue);
         if (item.value === itemValue) {
           item.selected = !item.selected;
         }
         return item;
-      })
+      }),
     };
 
     console.log(copyState);
@@ -80,13 +193,13 @@ function App() {
         topic: copyState.topics,
         subject: copyState.subjects,
         standard: copyState.standards,
-        type: copyState.types
+        type: copyState.types,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         dispatch({
           type: "UPDATE_DISPLAYED_QUESTIONS",
-          displayedQuestions: [...res.data.displayedQuestions]
+          displayedQuestions: [...res.data.displayedQuestions],
         });
       });
 
@@ -94,7 +207,7 @@ function App() {
       //update sidebar
       axios
         .post(`${baseURL}/questions/sideBarBySubjects`, { subjects: itemValue })
-        .then(res => {
+        .then((res) => {
           console.log("inside sidebarbysubject", res);
           //keep subjects that are checked as selected - everything else resets
 
@@ -103,7 +216,7 @@ function App() {
             subjects: state.subjects,
             topics: [...res.data.topics],
             standards: [...res.data.standards],
-            types: [...res.data.types]
+            types: [...res.data.types],
           });
         });
     }

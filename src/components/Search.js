@@ -31,8 +31,8 @@ export default function Search({ state, dispatch, handleChange }) {
           handleChange={handleChange}
         />
         <DisplayedQuestions>
-          {state.displayedQuestions.map(question => (
-            <Card question={question} dispatch={dispatch} />
+          {state.displayedQuestions.map((question, i) => (
+            <Card question={question} dispatch={dispatch} key={i} />
           ))}
         </DisplayedQuestions>
       </Main>
