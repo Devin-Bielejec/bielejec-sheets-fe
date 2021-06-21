@@ -24,42 +24,106 @@ export default function Card({ question, dispatch }) {
   const id = question.id;
   const imgURL = question.imgURL;
   const [questionCount, setQuestionCount] = React.useState(1);
+  //add selected to kwargs with more than one option
+  Object.keys(question.kwargs).forEach((kwarg) => {
+    Object.keys(question.kwargs[kwarg]).forEach((oKey, i) => {
+      let o = question.kwargs[kwarg][oKey];
+      if (Object.keys(question.kwargs[kwarg]).length > 1) {
+        o.selected = i == 0;
+      } else {
+        o.selected = o.value == "true" || o.value == "True";
+      }
+    });
+  });
   const [questionToAdd, setQuestionToAdd] = React.useState({ ...question });
 
-  function handleQuestionCount(e) {
+  function handleQuestionCountChange(e) {
     setQuestionCount(e.target.value);
   }
 
   //We'll add ability to add more than one question later
-  const handleClick = (question) => {
+  const handleAddQuestionClick = (question) => {
     dispatch({
       type: "ADD_QUESTION",
       question: question,
     });
   };
 
+  //For radio buttons or select
+  function handleRadioOrSelectChange(key, e) {
+    let selectedKwarg = key;
+    let value = e.target.value;
+    console.log("inside change", selectedKwarg, value);
+    //copy question to add - we're going to modify a kwarg
+    let questionToAddCopy = { ...questionToAdd };
+
+    //looking at all the options underneath a kwarg - make all choices false unless chosen
+    Object.keys(questionToAddCopy.kwargs[selectedKwarg]).forEach(
+      (optionKey) => {
+        if (optionKey == value) {
+          questionToAddCopy = {
+            ...questionToAddCopy,
+            kwargs: {
+              ...questionToAddCopy.kwargs,
+              [selectedKwarg]: {
+                ...questionToAddCopy.kwargs[selectedKwarg],
+                [optionKey]: {
+                  ...questionToAddCopy.kwargs[selectedKwarg][optionKey],
+                  selected: true,
+                },
+              },
+            },
+          };
+          console.log("changed to true");
+          console.log(questionToAddCopy.kwargs[selectedKwarg][optionKey]);
+        } else {
+          questionToAddCopy = {
+            ...questionToAddCopy,
+            kwargs: {
+              ...questionToAddCopy.kwargs,
+              [selectedKwarg]: {
+                ...questionToAddCopy.kwargs[selectedKwarg],
+                [optionKey]: {
+                  ...questionToAddCopy.kwargs[selectedKwarg][optionKey],
+                  selected: false,
+                },
+              },
+            },
+          };
+        }
+      }
+    );
+    console.log(questionToAddCopy);
+    setQuestionToAdd({ ...questionToAddCopy });
+  }
+
   return (
     <StyledCard key={id} id={id}>
       <Image src={imgURL} />
       {/* button to add integer amounts*/}
       <form>
-        {Object.keys(question.kwargs).map((key) => {
-          let curArr = question.kwargs[key];
+        {Object.keys(question.kwargs).map((kwarg) => {
+          //use array form to see if we have any bools
+          let curArr = Object.keys(question.kwargs[kwarg]);
 
           //if kwarg is array 1 < len < 7 --> radio buttons
           if (curArr.length > 1 && curArr.length < 7) {
             //radio buttons
             return (
               <section>
-                <h3>{key}</h3>
-                {curArr.map((item) => {
+                <h3>{kwarg}</h3>
+                {curArr.map((itemKey) => {
+                  let item = question.kwargs[kwarg][itemKey];
+                  console.log(item);
                   return (
                     <>
                       <input
                         key={item.value}
                         type="radio"
                         value={item.value}
-                        name={item.value}
+                        checked={questionToAdd.kwargs[kwarg][itemKey].selected}
+                        name={kwarg}
+                        onChange={(e) => handleRadioOrSelectChange(kwarg, e)}
                       />
 
                       <label htmlFor={item.value}>
@@ -71,16 +135,29 @@ export default function Card({ question, dispatch }) {
               </section>
             );
           } else if (curArr.length >= 7) {
-            //select
+            let selectedValue = Object.keys(questionToAdd.kwargs[kwarg]).filter(
+              (item) => questionToAdd.kwargs[kwarg][item].selected
+            )[0];
+            console.log("selected value", selectedValue);
+
             return (
               <section>
-                <label htmlFor={key}>{key}</label>
-                <select key={key} name={key} id={key}>
-                  {curArr.map((item) => (
-                    <option key={item.value} value={item.value}>
-                      {item.value}
-                    </option>
-                  ))}
+                <label htmlFor={kwarg}>{kwarg}</label>
+                <select
+                  key={kwarg}
+                  name={kwarg}
+                  id={kwarg}
+                  value={selectedValue}
+                  onChange={(e) => handleRadioOrSelectChange(kwarg, e)}
+                >
+                  {curArr.map((itemKey) => {
+                    let item = question.kwargs[kwarg][itemKey];
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.value}
+                      </option>
+                    );
+                  })}
                 </select>
               </section>
             );
@@ -88,7 +165,7 @@ export default function Card({ question, dispatch }) {
             //checkbox since length should be equal to 1
             return (
               <section>
-                <h3>{key}</h3>
+                <h3>{kwarg}</h3>
                 <input
                   type="checkbox"
                   key={curArr[0].value}
@@ -105,9 +182,11 @@ export default function Card({ question, dispatch }) {
         type="number"
         name="questionCount"
         value={questionCount}
-        onChange={handleQuestionCount}
+        onChange={handleQuestionCountChange}
       />
-      <Button onClick={() => handleClick(question)}>Add Question</Button>
+      <Button onClick={() => handleAddQuestionClick(question)}>
+        Add Question
+      </Button>
     </StyledCard>
   );
 }
