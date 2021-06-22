@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const initialState = {
   document: {
-    questions: []
+    questions: [],
     //options etc
   },
   userID: 1,
@@ -11,7 +11,7 @@ export const initialState = {
   subjects: [],
   topics: [],
   standards: [],
-  types: []
+  types: [],
 };
 
 export const reducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ export const reducer = (state = initialState, action) => {
     case "UPDATE_DISPLAYED_QUESTIONS":
       return {
         ...state,
-        displayedQuestions: action.displayedQuestions
+        displayedQuestions: action.displayedQuestions,
       };
     case "UPDATE_SIDEBAR_BY_SUBJECT":
       return {
@@ -27,18 +27,18 @@ export const reducer = (state = initialState, action) => {
         topics: action.topics,
         subjects: action.subjects,
         standards: action.standards,
-        types: action.types
+        types: action.types,
       };
     case "TOGGLE_SIDEBAR_OPTION":
       //toggling happens here
       return {
         ...state,
-        [action.sideBarTitle]: state[action.sideBarTitle].map(stateItem => {
+        [action.sideBarTitle]: state[action.sideBarTitle].map((stateItem) => {
           if (stateItem.value === action.itemValue) {
             stateItem.selected = !stateItem.selected;
           }
           return stateItem;
-        })
+        }),
       };
     case "LOGIN":
       return { userID: action.userID, ...state };
@@ -47,8 +47,8 @@ export const reducer = (state = initialState, action) => {
         ...state,
         document: {
           ...state.document,
-          questions: [...state.document.questions, action.question]
-        }
+          questions: [...state.document.questions, ...action.questions],
+        },
       };
     case "REMOVE_QUESTION":
       let filteredQuestions = [...state.document.questions];
@@ -57,16 +57,16 @@ export const reducer = (state = initialState, action) => {
         ...state,
         document: {
           ...state.document,
-          questions: [...filteredQuestions]
-        }
+          questions: [...filteredQuestions],
+        },
       };
     case "UPDATE_ORDER":
       return {
         ...state,
         document: {
           ...state.document,
-          questions: action.updatedQuestions
-        }
+          questions: action.updatedQuestions,
+        },
       };
     default:
       return { ...state };

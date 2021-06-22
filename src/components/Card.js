@@ -41,10 +41,15 @@ export default function Card({ question, dispatch }) {
   }
 
   //We'll add ability to add more than one question later
-  const handleAddQuestionClick = (question) => {
+  const handleAddQuestionClick = () => {
+    //add count many questions
+    let questionArr = [];
+    for (let i = 0; i < questionCount; i++) {
+      questionArr.push(questionToAdd);
+    }
     dispatch({
       type: "ADD_QUESTION",
-      question: question,
+      questions: questionArr,
     });
   };
 
@@ -181,9 +186,7 @@ export default function Card({ question, dispatch }) {
         value={questionCount}
         onChange={handleQuestionCountChange}
       />
-      <Button onClick={() => handleAddQuestionClick(question)}>
-        Add Question
-      </Button>
+      <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
     </StyledCard>
   );
 }

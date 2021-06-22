@@ -15,7 +15,7 @@ const StyledCard = styled.div`
   align-items: center;
 
   user-select: none;
-  background-color: ${props => (props.isDragging ? "lightgrey" : "")};
+  background-color: ${(props) => (props.isDragging ? "lightgrey" : "")};
   //not putting default draggingStyles
 `;
 
@@ -38,7 +38,7 @@ export default function PreviewCard({ question, dispatch, index }) {
     dispatch({
       type: "REMOVE_QUESTION",
       questionID: id,
-      index: index
+      index: index,
     });
   };
 
@@ -57,7 +57,7 @@ export default function PreviewCard({ question, dispatch, index }) {
           draggableStyles={provided.draggableProps.style}
         >
           <IndexTitle>{index}</IndexTitle>
-          <Image src={imgURL} />
+          <Image src={require(`../img/${id}.jpg`)} />
           <Button onClick={() => handleClick(question.id, index)}>
             Remove Question
           </Button>
