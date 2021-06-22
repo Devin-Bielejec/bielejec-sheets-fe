@@ -32,7 +32,7 @@ const IndexTitle = styled.h2`
 export default function PreviewCard({ question, dispatch, index }) {
   const id = question.id;
   const imgURL = question.imgURL;
-
+  console.log(question);
   //We'll add ability to add more than one question later
   const handleClick = (id, index) => {
     dispatch({
@@ -57,6 +57,19 @@ export default function PreviewCard({ question, dispatch, index }) {
           draggableStyles={provided.draggableProps.style}
         >
           <IndexTitle>{index}</IndexTitle>
+          {Object.keys(question.kwargs).map((kwarg) => {
+            return (
+              <section>
+                <h3>{kwarg}</h3>
+                {Object.keys(question.kwargs[kwarg]).map((option) => {
+                  console.log(option);
+                  if (question.kwargs[kwarg][option].selected) {
+                    return <p>{question.kwargs[kwarg][option].value}</p>;
+                  }
+                })}
+              </section>
+            );
+          })}
           <Image src={require(`../img/${id}.jpg`)} />
           <Button onClick={() => handleClick(question.id, index)}>
             Remove Question
