@@ -97,7 +97,7 @@ export default function Card({ question, dispatch }) {
     );
     setQuestionToAdd({ ...questionToAddCopy });
   }
-  console.log(id);
+
   return (
     <StyledCard key={id} id={id}>
       <Image src={require(`../img/${id}.jpg`)} />

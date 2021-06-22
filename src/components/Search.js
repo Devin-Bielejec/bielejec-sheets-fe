@@ -18,7 +18,7 @@ const Main = styled.main`
 `;
 
 export default function Search({ state, dispatch, handleChange }) {
-  console.log(state);
+  console.log("search state", state);
   //Default questions - nothing selected
 
   return (

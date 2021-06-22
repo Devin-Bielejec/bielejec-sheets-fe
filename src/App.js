@@ -43,120 +43,6 @@ function App() {
       });
     });
 
-    //for testing
-    let data = [
-      {
-        id: "OneStepEquationWorksheet",
-        standard: "A.REI.B.3",
-        skill: "Solve linear equations",
-        subSkill: null,
-        topic: "Expressions And Equations",
-        subTopic: null,
-        notes: "",
-        type: "Worksheet",
-        kwargs: {
-          firstStep: {
-            add: {
-              value: "add",
-              toolTip: "Operation to solve",
-            },
-            subtract: {
-              value: "subtract",
-              toolTip: "Operation to solve",
-            },
-            multiply: {
-              value: "multiply",
-              toolTip: "Operation to solve",
-            },
-            divide: {
-              value: "divide",
-              toolTip: "Operation to solve",
-            },
-          },
-          difficulty: {
-            1: {
-              value: "1",
-              toolTip: "Positive number result",
-            },
-            2: {
-              value: "2",
-              toolTip: "Postive number result with larger numbers",
-            },
-            3: {
-              value: "3",
-              toolTip: "Negative number result",
-            },
-          },
-          variable: {
-            d: {
-              value: "d",
-              toolTip: "Variable to use",
-            },
-            e: {
-              value: "e",
-              toolTip: "Variable to use",
-            },
-            g: {
-              value: "g",
-              toolTip: "Variable to use",
-            },
-            h: {
-              value: "h",
-              toolTip: "Variable to use",
-            },
-            j: {
-              value: "j",
-              toolTip: "Variable to use",
-            },
-            k: {
-              value: "k",
-              toolTip: "Variable to use",
-            },
-            m: {
-              value: "m",
-              toolTip: "Variable to use",
-            },
-            n: {
-              value: "n",
-              toolTip: "Variable to use",
-            },
-            p: {
-              value: "p",
-              toolTip: "Variable to use",
-            },
-            r: {
-              value: "r",
-              toolTip: "Variable to use",
-            },
-            s: {
-              value: "s",
-              toolTip: "Variable to use",
-            },
-            w: {
-              value: "w",
-              toolTip: "Variable to use",
-            },
-            x: {
-              value: "x",
-              toolTip: "Variable to use",
-            },
-            y: {
-              value: "y",
-              toolTip: "Variable to use",
-            },
-            z: {
-              value: "z",
-              toolTip: "Variable to use",
-            },
-          },
-        },
-      },
-    ];
-    dispatch({
-      type: "UPDATE_DISPLAYED_QUESTIONS",
-      displayedQuestions: [...data],
-    });
-
     //get default sidebar
     axios.post(`${baseURL}/questions`, { subjects: [] }).then((res) => {
       console.log("inside sidebarbysubject", res);
@@ -222,18 +108,16 @@ function App() {
     }
   }
 
+  console.log("state in app", state);
   return (
     <>
       <Router>
         <Global />
         <Layout>
           <Switch>
-            <PrivateRoute
-              path="/create"
-              state={state}
-              dispatch={dispatch}
-              component={CreateDocument}
-            />
+            <Route path="/create">
+              <CreateDocument state={state} dispatch={dispatch} />
+            </Route>
             <Route path="/login">
               <Login />
             </Route>

@@ -11,42 +11,66 @@ import {
   StyledInput,
   Warning,
   StyledLink,
-  Text
+  Text,
 } from "./Styles";
 
 export default function CreateDocument({ state, dispatch }) {
   const { register, handleSubmit, formState, errors } = useForm({
-    mode: "onChange"
+    mode: "onChange",
   });
+  const [downloadName, setDownloadName] = useState("");
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadLink, setDownloadLink] = useState("");
 
   let history = useHistory();
-  console.log("createDocument", state);
-  const onSubmit = data => {
+  console.log("createDocument state", state);
+  const onSubmit = (data) => {
     setIsDownloading(true);
-    console.log("createDocument data", data);
+    console.log("createDocument data", state);
+    //when we send to backend, we have to send only kwargs that are selected
+    let newDocument = { questions: [] };
+    state.document.questions.forEach((question) => {
+      let newQuestion = { id: question.id };
+      let newKwargs = {};
+
+      //loop through kwargs and add only if selected
+      Object.keys(question.kwargs).forEach((kwarg) => {
+        //now loop through options
+        Object.keys(question.kwargs[kwarg]).forEach((option) => {
+          if (question.kwargs[kwarg][option].selected) {
+            //check if option is a number
+            if (isNaN(option)) {
+              newKwargs[kwarg] = option;
+            } else {
+              newKwargs[kwarg] = parseInt(option);
+            }
+          }
+        });
+      });
+      newQuestion.kwargs = newKwargs;
+      newDocument.questions.push(newQuestion);
+    });
+
     axiosWithAuth()
-      .post(
-        "/questions/createDocument",
-        {
+      .post("/createDocument", {
+        data: {
           nameOfDoc: data.title,
-          ids: state.document.questions.map(item => item.id)
+          numberOfVersions: data.numberOfVersions,
+          document: newDocument,
+          username: "testingUserName",
         },
-        {
-          responseType: "blob"
-        }
-      )
-      .then(res => {
-        console.log(res);
-        const file = new Blob([res.data], { type: "application/pdf" });
-        const fileURL = window.URL.createObjectURL(file);
-        setDownloadLink(fileURL);
-        setIsDownloading(false);
-        console.log(fileURL);
       })
-      .catch(err => console.log(err));
+      .then((res) => {
+        console.log(res);
+
+        setDownloadName(data.title);
+        setDownloadLink(
+          `http://localhost:5000/getFile/testingUserID/${data.title}`
+        );
+        setIsDownloading(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -78,7 +102,7 @@ export default function CreateDocument({ state, dispatch }) {
             <div>
               <a
                 href={downloadLink}
-                download={"myfile.pdf"}
+                download={downloadName}
                 rel="noreferrer noopener"
               >
                 Download!
