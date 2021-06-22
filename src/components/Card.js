@@ -22,7 +22,6 @@ const Image = styled.img`
 
 export default function Card({ question, dispatch }) {
   const id = question.id;
-  const imgURL = question.imgURL;
   const [questionCount, setQuestionCount] = React.useState(1);
   //add selected to kwargs with more than one option
   Object.keys(question.kwargs).forEach((kwarg) => {
@@ -53,7 +52,7 @@ export default function Card({ question, dispatch }) {
   function handleRadioOrSelectChange(key, e) {
     let selectedKwarg = key;
     let value = e.target.value;
-    console.log("inside change", selectedKwarg, value);
+
     //copy question to add - we're going to modify a kwarg
     let questionToAddCopy = { ...questionToAdd };
 
@@ -74,8 +73,6 @@ export default function Card({ question, dispatch }) {
               },
             },
           };
-          console.log("changed to true");
-          console.log(questionToAddCopy.kwargs[selectedKwarg][optionKey]);
         } else {
           questionToAddCopy = {
             ...questionToAddCopy,
@@ -93,13 +90,12 @@ export default function Card({ question, dispatch }) {
         }
       }
     );
-    console.log(questionToAddCopy);
     setQuestionToAdd({ ...questionToAddCopy });
   }
-
+  console.log(id);
   return (
     <StyledCard key={id} id={id}>
-      <Image src={imgURL} />
+      <Image src={require(`../img/${id}.jpg`)} />
       {/* button to add integer amounts*/}
       <form>
         {Object.keys(question.kwargs).map((kwarg) => {
@@ -114,7 +110,6 @@ export default function Card({ question, dispatch }) {
                 <h3>{kwarg}</h3>
                 {curArr.map((itemKey) => {
                   let item = question.kwargs[kwarg][itemKey];
-                  console.log(item);
                   return (
                     <>
                       <input
@@ -138,7 +133,6 @@ export default function Card({ question, dispatch }) {
             let selectedValue = Object.keys(questionToAdd.kwargs[kwarg]).filter(
               (item) => questionToAdd.kwargs[kwarg][item].selected
             )[0];
-            console.log("selected value", selectedValue);
 
             return (
               <section>
@@ -154,7 +148,7 @@ export default function Card({ question, dispatch }) {
                     let item = question.kwargs[kwarg][itemKey];
                     return (
                       <option key={item.value} value={item.value}>
-                        {item.value}
+                        {item.value} ({item.toolTip})
                       </option>
                     );
                   })}
@@ -163,13 +157,16 @@ export default function Card({ question, dispatch }) {
             );
           } else {
             //checkbox since length should be equal to 1
+            let selectedValue = Object.keys(questionToAdd.kwargs[kwarg]).filter(
+              (item) => questionToAdd.kwargs[kwarg][item].selected
+            )[0];
             return (
               <section>
                 <h3>{kwarg}</h3>
                 <input
                   type="checkbox"
                   key={curArr[0].value}
-                  value={curArr[0].value == "True" ? "checked" : "unchecked"}
+                  value={selectedValue ? "checked" : "unchecked"}
                   name={curArr[0].value}
                 />
                 <label htmlFor={curArr[0].value} />

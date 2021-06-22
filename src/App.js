@@ -35,7 +35,7 @@ function App() {
   React.useEffect(() => {
     // get default displayed questions
     axios.get(`${baseURL}/questions`).then((res) => {
-      console.log(res);
+      console.log("initial res", res);
 
       dispatch({
         type: "UPDATE_DISPLAYED_QUESTIONS",
