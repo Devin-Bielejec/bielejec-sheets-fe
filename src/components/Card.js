@@ -53,6 +53,29 @@ export default function Card({ question, dispatch }) {
     });
   };
 
+  function handleBoolChange(selectedKwarg) {
+    let dictKey = Object.keys(questionToAdd.kwargs[selectedKwarg])[0];
+
+    let questionToAddCopy = {
+      ...questionToAdd,
+      kwargs: {
+        ...questionToAdd.kwargs,
+        [selectedKwarg]: {
+          ...questionToAdd.kwargs[selectedKwarg],
+          [dictKey]: {
+            ...questionToAdd.kwargs[selectedKwarg][dictKey],
+            value:
+              questionToAdd.kwargs[selectedKwarg][dictKey].value == "1"
+                ? "0"
+                : "1",
+          },
+        },
+      },
+    };
+
+    setQuestionToAdd({ ...questionToAddCopy });
+  }
+
   //For radio buttons or select
   function handleRadioOrSelectChange(key, e) {
     let selectedKwarg = key;
@@ -162,19 +185,25 @@ export default function Card({ question, dispatch }) {
             );
           } else {
             //checkbox since length should be equal to 1
-            let selectedValue = Object.keys(questionToAdd.kwargs[kwarg]).filter(
-              (item) => questionToAdd.kwargs[kwarg][item].selected
-            )[0];
+
+            //get key of dictionary either 1 bc true or 0 bc false
+            let dictKey = Object.keys(questionToAdd.kwargs[kwarg])[0];
+            let cur = questionToAdd.kwargs[kwarg][dictKey];
+            let curValue = questionToAdd.kwargs[kwarg][dictKey].value == "1";
+            let toolTip = questionToAdd.kwargs[kwarg][dictKey].toolTip;
+            console.log(questionToAdd.kwargs[kwarg]);
+            console.log("bool selected value", curValue);
             return (
               <section>
                 <h3>{kwarg}</h3>
                 <input
                   type="checkbox"
-                  key={curArr[0].value}
-                  value={selectedValue ? "checked" : "unchecked"}
-                  name={curArr[0].value}
+                  key={kwarg}
+                  checked={curValue}
+                  name={kwarg}
+                  onChange={() => handleBoolChange(kwarg)}
                 />
-                <label htmlFor={curArr[0].value} />
+                <label htmlFor={toolTip}>{toolTip}</label>
               </section>
             );
           }

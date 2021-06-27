@@ -29,7 +29,14 @@ export default function CreateDocument({ state, dispatch }) {
     setIsDownloading(true);
     console.log("createDocument data", state);
     //when we send to backend, we have to send only kwargs that are selected
-    let newDocument = { questions: [] };
+    let newDocument = {
+      nameOfDoc: data.nameOfDoc,
+      spacingBetween: data.spacingBetween + "in",
+      collatedAnswerKey: data.collatedAnswerKey,
+      columns: parseInt(data.columns),
+      numberOfVersions: parseInt(data.numberOfVersions),
+      questions: [],
+    };
     state.document.questions.forEach((question) => {
       let newQuestion = { id: question.id };
       let newKwargs = {};
@@ -55,8 +62,6 @@ export default function CreateDocument({ state, dispatch }) {
     axiosWithAuth()
       .post("/createDocument", {
         data: {
-          nameOfDoc: data.title,
-          numberOfVersions: data.numberOfVersions,
           document: newDocument,
           username: "testingUserName",
         },
@@ -64,9 +69,9 @@ export default function CreateDocument({ state, dispatch }) {
       .then((res) => {
         console.log(res);
 
-        setDownloadName(data.title);
+        setDownloadName(newDocument.nameOfDoc);
         setDownloadLink(
-          `http://localhost:5000/getFile/testingUserID/${data.title}`
+          `http://localhost:5000/getFile/testingUserID/${newDocument.nameOfDoc}`
         );
         setIsDownloading(false);
       })
@@ -79,20 +84,53 @@ export default function CreateDocument({ state, dispatch }) {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h2>Create Document</h2>
           <StyledInput
-            name="title"
+            name="nameOfDoc"
             placeholder="Title For Document"
             ref={register({ required: true })}
           />
-          {errors.title && <Warning>This field is required</Warning>}
+          {errors.nameOfDoc && <Warning>This field is required</Warning>}
 
+          <label htmlFor="numberOfVersions">Number of Versions</label>
           <StyledInput
             name="numberOfVersions"
             placeholder="Number of Versions"
             type="number"
-            defaultValue="1"
+            defaultValue={1}
             ref={register({ required: true, min: 1 })}
           />
           {errors.numberOfVersions && <Warning>This field is required</Warning>}
+
+          <label htmlFor="spacingBetween">
+            Spacing Between Questions (inches)
+          </label>
+          <StyledInput
+            name="spacingBetween"
+            placeholder="Spacing Between Questions"
+            type="number"
+            defaultValue={0.5}
+            ref={register({ required: false, min: 0 })}
+          />
+          {errors.spacingBetween}
+
+          <label htmlFor="collatedAnswerKey">Collated Answer Keys</label>
+          <StyledInput
+            name="collatedAnswerKey"
+            placeholder="Collated Answer Keys"
+            type="checkbox"
+            defaultValue={true}
+            ref={register({ required: false })}
+          />
+          {errors.collatedAnswerKey}
+
+          <label htmlFor="columns">Number of Columns</label>
+          <StyledInput
+            name="columns"
+            placeholder="Number of Columns"
+            type="number"
+            defaultValue={1}
+            ref={register({ required: false, min: 1, max: 5 })}
+          />
+          {errors.columns}
 
           <SubmitButton type="submit" disabled={!formState.isValid}>
             Create Document

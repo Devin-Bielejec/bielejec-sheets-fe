@@ -56,18 +56,21 @@ export default function PreviewCard({ question, dispatch, index }) {
           isDragging={snapshot.isDragging}
           draggableStyles={provided.draggableProps.style}
         >
-          <IndexTitle>{index}</IndexTitle>
+          <IndexTitle>{index + 1}</IndexTitle>
           {Object.keys(question.kwargs).map((kwarg) => {
             return (
-              <section>
-                <h3>{kwarg}</h3>
+              <div>
                 {Object.keys(question.kwargs[kwarg]).map((option) => {
                   console.log(option);
                   if (question.kwargs[kwarg][option].selected) {
-                    return <p>{question.kwargs[kwarg][option].value}</p>;
+                    return (
+                      <p key={option}>
+                        {kwarg}:{question.kwargs[kwarg][option].value}
+                      </p>
+                    );
                   }
                 })}
-              </section>
+              </div>
             );
           })}
           <Image src={require(`../img/${id}.jpg`)} />
