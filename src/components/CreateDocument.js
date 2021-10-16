@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { baseURL, axiosWithAuth } from "../utils/index";
+import { axiosWithAuth } from "../utils/index";
 import {
   Flex,
   Background,
@@ -10,8 +9,6 @@ import {
   SubmitButton,
   StyledInput,
   Warning,
-  StyledLink,
-  Text,
 } from "./Styles";
 
 export default function CreateDocument({ state, dispatch }) {
@@ -35,29 +32,10 @@ export default function CreateDocument({ state, dispatch }) {
       collatedAnswerKey: data.collatedAnswerKey,
       columns: parseInt(data.columns),
       numberOfVersions: parseInt(data.numberOfVersions),
-      questions: [],
+      questions: [...state.document.questions],
     };
-    state.document.questions.forEach((question) => {
-      let newQuestion = { id: question.id };
-      let newKwargs = {};
 
-      //loop through kwargs and add only if selected
-      Object.keys(question.kwargs).forEach((kwarg) => {
-        //now loop through options
-        Object.keys(question.kwargs[kwarg]).forEach((option) => {
-          if (question.kwargs[kwarg][option].selected) {
-            //check if option is a number
-            if (isNaN(option)) {
-              newKwargs[kwarg] = option;
-            } else {
-              newKwargs[kwarg] = parseInt(option);
-            }
-          }
-        });
-      });
-      newQuestion.kwargs = newKwargs;
-      newDocument.questions.push(newQuestion);
-    });
+    console.log(newDocument);
 
     axiosWithAuth()
       .post("/createDocument", {

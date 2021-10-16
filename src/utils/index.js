@@ -7,7 +7,7 @@ export const baseURL =
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   return axios.create({
     baseURL: baseURL,
