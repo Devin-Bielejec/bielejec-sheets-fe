@@ -1,9 +1,10 @@
-import React, { useState, useReducer, useEffect } from "react";
-import axios from "axios";
-import { baseURL } from "../utils/index.js";
+import React from "react";
 import Card from "./Card.js";
 import styled from "styled-components";
-import SideBar from "./SideBar.js";
+import Filter from "./Filter.js";
+import { updateAllQuestions } from "../actions/updateAllQuestions";
+import { updateDisplayedQuestions } from "../actions/updateDisplayedQuestions";
+import { connect } from "react-redux";
 
 const DisplayedQuestions = styled.section`
   display: flex;
@@ -12,30 +13,47 @@ const DisplayedQuestions = styled.section`
   margin: 0 auto;
 `;
 
-const Main = styled.main`
-  display: flex;
-  flex-flow: row nowrap;
-`;
+const Main = styled.main``;
 
-export default function Search({ state, dispatch, handleChange }) {
-  console.log(state);
-  //Default questions - nothing selected
+function Search({
+  allQuestions,
+  displayedQuestions,
+  updateAllQuestions,
+  updateDisplayedQuestions,
+  ...rest
+}) {
+  React.useEffect(() => {
+    // get default displayed questions
+    updateAllQuestions();
+    updateDisplayedQuestions(allQuestions);
+  }, []);
 
+  console.log("search displayedQuestions", displayedQuestions);
   return (
     <>
       <h1>This is the search page where we can find questions!</h1>
       <Main>
-        <SideBar
-          state={state}
-          dispatch={dispatch}
-          handleChange={handleChange}
-        />
-        <DisplayedQuestions>
-          {state.displayedQuestions.map(question => (
-            <Card question={question} dispatch={dispatch} />
-          ))}
-        </DisplayedQuestions>
+        <Filter />
+        {displayedQuestions && displayedQuestions.length > 0 && (
+          <DisplayedQuestions>
+            {displayedQuestions.length > 0 &&
+              displayedQuestions.map((question, i) => (
+                <Card question={question} key={i} />
+              ))}
+          </DisplayedQuestions>
+        )}
       </Main>
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    allQuestions: state.allQuestions,
+    displayedQuestions: state.displayedQuestions,
+  };
+};
+export default connect(mapStateToProps, {
+  updateAllQuestions,
+  updateDisplayedQuestions,
+})(Search);

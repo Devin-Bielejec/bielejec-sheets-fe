@@ -11,31 +11,36 @@ import {
   StyledInput,
   Warning,
   StyledLink,
-  Text
+  Text,
 } from "./Styles";
 
 export default function Login() {
   const { register, handleSubmit, formState, errors } = useForm({
-    mode: "onChange"
+    mode: "onChange",
   });
+
+  const [invalidLogin, setInvalidLogin] = React.useState(false);
 
   let history = useHistory();
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const username = data.username;
     const password = data.password;
 
     axios
       .post(`${baseURL}/auth/login/`, {
         username: username,
-        password: password
+        password: password,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.key);
         history.push("/");
       })
-      .catch(err => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setInvalidLogin(true);
+      });
   };
 
   return (
@@ -43,6 +48,7 @@ export default function Login() {
       <Background>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h2>Login</h2>
+          {invalidLogin && <p>Invalid Login, please try again!</p>}
           <StyledInput
             name="username"
             placeholder="Username"

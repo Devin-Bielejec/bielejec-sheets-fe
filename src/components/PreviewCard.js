@@ -15,7 +15,7 @@ const StyledCard = styled.div`
   align-items: center;
 
   user-select: none;
-  background-color: ${props => (props.isDragging ? "lightgrey" : "")};
+  background-color: ${(props) => (props.isDragging ? "lightgrey" : "")};
   //not putting default draggingStyles
 `;
 
@@ -30,15 +30,15 @@ const IndexTitle = styled.h2`
 `;
 
 export default function PreviewCard({ question, dispatch, index }) {
-  const id = question.id;
-  const imgURL = question.imgURL;
-
+  const id = question.fileName;
+  const imgURL = question.fileName;
+  console.log(question);
   //We'll add ability to add more than one question later
-  const handleClick = (id, index) => {
+  const handleClick = (fileName, index) => {
     dispatch({
       type: "REMOVE_QUESTION",
-      questionID: id,
-      index: index
+      fileName: fileName,
+      index: index,
     });
   };
 
@@ -56,9 +56,27 @@ export default function PreviewCard({ question, dispatch, index }) {
           isDragging={snapshot.isDragging}
           draggableStyles={provided.draggableProps.style}
         >
-          <IndexTitle>{index}</IndexTitle>
-          <Image src={imgURL} />
-          <Button onClick={() => handleClick(question.id, index)}>
+          <IndexTitle>{index + 1}</IndexTitle>
+          {/* {Object.keys(question.kwargs).map((kwarg) => {
+            return (
+              <div>
+                {Object.keys(question.kwargs[kwarg]).map((option) => {
+                  console.log(option);
+                  if (question.kwargs[kwarg][option].selected) {
+                    return (
+                      <p key={option}>
+                        {kwarg}:{question.kwargs[kwarg][option].value}
+                      </p>
+                    );
+                  }
+                })}
+              </div>
+            );
+          })} */}
+          <Image
+            src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
+          />
+          <Button onClick={() => handleClick(question.fileName, index)}>
             Remove Question
           </Button>
         </StyledCard>

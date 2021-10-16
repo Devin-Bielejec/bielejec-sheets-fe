@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { baseURL, axiosWithAuth } from "../utils/index";
+import { axiosWithAuth } from "../utils/index";
 import {
   Flex,
   Background,
@@ -10,43 +9,51 @@ import {
   SubmitButton,
   StyledInput,
   Warning,
-  StyledLink,
-  Text
 } from "./Styles";
 
 export default function CreateDocument({ state, dispatch }) {
   const { register, handleSubmit, formState, errors } = useForm({
-    mode: "onChange"
+    mode: "onChange",
   });
+  const [downloadName, setDownloadName] = useState("");
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadLink, setDownloadLink] = useState("");
 
   let history = useHistory();
-  console.log("createDocument", state);
-  const onSubmit = data => {
+  console.log("createDocument state", state);
+  const onSubmit = (data) => {
     setIsDownloading(true);
-    console.log("createDocument data", data);
+    console.log("createDocument data", state);
+    //when we send to backend, we have to send only kwargs that are selected
+    let newDocument = {
+      nameOfDoc: data.nameOfDoc,
+      spacingBetween: data.spacingBetween + "in",
+      collatedAnswerKey: data.collatedAnswerKey,
+      columns: parseInt(data.columns),
+      numberOfVersions: parseInt(data.numberOfVersions),
+      questions: [...state.document.questions],
+    };
+
+    console.log(newDocument);
+
     axiosWithAuth()
-      .post(
-        "/questions/createDocument",
-        {
-          nameOfDoc: data.title,
-          ids: state.document.questions.map(item => item.id)
+      .post("/createDocument", {
+        data: {
+          document: newDocument,
+          username: "testingUserName",
         },
-        {
-          responseType: "blob"
-        }
-      )
-      .then(res => {
-        console.log(res);
-        const file = new Blob([res.data], { type: "application/pdf" });
-        const fileURL = window.URL.createObjectURL(file);
-        setDownloadLink(fileURL);
-        setIsDownloading(false);
-        console.log(fileURL);
       })
-      .catch(err => console.log(err));
+      .then((res) => {
+        console.log(res);
+
+        setDownloadName(newDocument.nameOfDoc);
+        setDownloadLink(
+          `http://localhost:5000/getFile/testingUserID/${newDocument.nameOfDoc}`
+        );
+        setIsDownloading(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -55,20 +62,53 @@ export default function CreateDocument({ state, dispatch }) {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h2>Create Document</h2>
           <StyledInput
-            name="title"
+            name="nameOfDoc"
             placeholder="Title For Document"
             ref={register({ required: true })}
           />
-          {errors.title && <Warning>This field is required</Warning>}
+          {errors.nameOfDoc && <Warning>This field is required</Warning>}
 
+          <label htmlFor="numberOfVersions">Number of Versions</label>
           <StyledInput
             name="numberOfVersions"
             placeholder="Number of Versions"
             type="number"
-            defaultValue="1"
+            defaultValue={1}
             ref={register({ required: true, min: 1 })}
           />
           {errors.numberOfVersions && <Warning>This field is required</Warning>}
+
+          <label htmlFor="spacingBetween">
+            Spacing Between Questions (inches)
+          </label>
+          <StyledInput
+            name="spacingBetween"
+            placeholder="Spacing Between Questions"
+            type="number"
+            defaultValue={0.5}
+            ref={register({ required: false, min: 0 })}
+          />
+          {errors.spacingBetween}
+
+          <label htmlFor="collatedAnswerKey">Collated Answer Keys</label>
+          <StyledInput
+            name="collatedAnswerKey"
+            placeholder="Collated Answer Keys"
+            type="checkbox"
+            defaultValue={true}
+            ref={register({ required: false })}
+          />
+          {errors.collatedAnswerKey}
+
+          <label htmlFor="columns">Number of Columns</label>
+          <StyledInput
+            name="columns"
+            placeholder="Number of Columns"
+            type="number"
+            defaultValue={1}
+            ref={register({ required: false, min: 1, max: 5 })}
+          />
+          {errors.columns}
 
           <SubmitButton type="submit" disabled={!formState.isValid}>
             Create Document
@@ -78,7 +118,7 @@ export default function CreateDocument({ state, dispatch }) {
             <div>
               <a
                 href={downloadLink}
-                download={"myfile.pdf"}
+                download={downloadName}
                 rel="noreferrer noopener"
               >
                 Download!

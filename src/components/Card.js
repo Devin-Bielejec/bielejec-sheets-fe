@@ -12,28 +12,51 @@ const StyledCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  max-width: 400px;
 `;
 
 const Image = styled.img`
-  width: 90%;
+  // width: 100%;
+  max-width: 500px;
+  object-fit: contain;
 `;
+
+//
 
 export default function Card({ question, dispatch }) {
   const id = question.id;
-  const imgURL = question.imgURL;
+  const [questionCount, setQuestionCount] = React.useState(1);
+
+  function handleQuestionCountChange(e) {
+    setQuestionCount(e.target.value);
+  }
 
   //We'll add ability to add more than one question later
-  const handleClick = question => {
+  const handleAddQuestionClick = () => {
+    //add count many questions
+    let questionArr = [];
+    for (let i = 0; i < questionCount; i++) {
+      questionArr.push(question);
+    }
     dispatch({
       type: "ADD_QUESTION",
-      question: question
+      questions: questionArr,
     });
   };
 
   return (
-    <StyledCard id={id}>
-      <Image src={imgURL} />
-      <Button onClick={() => handleClick(question)}>Add Question</Button>
+    <StyledCard key={id} id={id}>
+      {/* TEMP Local image storage from BE */}
+      <Image
+        src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
+      />
+      <input
+        type="number"
+        name="questionCount"
+        value={questionCount}
+        onChange={handleQuestionCountChange}
+      />
+      <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
     </StyledCard>
   );
 }
