@@ -10,14 +10,13 @@ export default function Select({
   name,
   options,
   handleChange,
-  disabled,
   selectedOption,
 }) {
   return (
     <StyledSelect>
       <label htmlFor={name}>{name}</label>
 
-      <select name={name} onChange={handleChange} disabled={disabled}>
+      <select name={name} onChange={handleChange}>
         {options.map((value) => (
           <option key={value} value={value}>
             {value}
