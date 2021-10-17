@@ -27,15 +27,29 @@ function getUniqueNamesBy(property, array, additionalProperty = null) {
   return Object.keys(hash);
 }
 
-/*
-get details from state.questions
-selectQuestions = state.questions
-SELECT Subject - all subjects from state.questions
-SELECT Topic (/subTopic) - all topics that have said topic
-SELECT Skill (/subSkill) - all skills that have said subject and topic
-*/
+function filterBy(arr, propertyValueArr) {
+  let newArr = [];
+  //loop through each question
+  for (let i = 0; i < arr.length; i++) {
+    let curItem = arr[i];
 
-//connect to redux for updateDisplayQuestions state
+    //loop through each prop value
+    let addItemToNewArr = true;
+    for (let j = 0; j < propertyValueArr.length; j++) {
+      let property = propertyValueArr[j][0];
+      let value = propertyValueArr[j][1];
+
+      //check if item doesn't work for any property value
+      if (curItem[property] !== value) {
+        addItemToNewArr = false;
+      }
+    }
+    if (addItemToNewArr) {
+      newArr.push(curItem);
+    }
+  }
+  return newArr;
+}
 
 function Filter({
   allQuestions,
@@ -43,134 +57,85 @@ function Filter({
   updateDisplayedQuestions,
   ...rest
 }) {
-  let [selectState, setSelectState] = React.useState({
-    subject: {
-      disabled: false,
-      items: allQuestions ? getUniqueNamesBy("subject", allQuestions) : [],
-      current: displayedQuestions
-        ? getUniqueNamesBy("subject", displayedQuestions)[0]
-        : [],
-    },
-    topic: { disabled: true, items: [], current: "" },
-    skill: { disabled: true, items: [], current: "" },
+  let [selectState, setSelectState] = React.useState(() => {
+    let subjects = getUniqueNamesBy("subject", allQuestions);
+    let startingSubject = subjects[0];
+
+    let topics = getUniqueNamesBy(
+      "topic",
+      filterBy(allQuestions, [["subject", startingSubject]])
+    );
+    let startingTopic = topics[0];
+
+    let skills = getUniqueNamesBy(
+      "skill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["subTopic", startingTopic],
+      ])
+    );
+    let startingSkill = skills[0];
+
+    return {
+      subject: { items: subjects, current: startingSubject },
+      topic: { items: topics, current: startingTopic },
+      skill: { items: skills, current: startingSkill },
+    };
   });
 
-  React.useState(() => {
-    console.log("SELECT USE STATE");
+  React.useEffect(() => {
+    console.log("use effect", selectState);
+    console.log("all Questions", allQuestions);
+    //filter of displayed questions for subject, topic, and skill
     updateDisplayedQuestions(
       allQuestions.filter((item) => {
-        //equal to current subject
-        if (item.subject === selectState.subject.current) {
-          //if topic is equal
-          if (
-            selectState.topic.current !== "" &&
-            (selectState.topic.current === item.topic ||
-              selectState.topic.current === item.subTopic)
-          ) {
-            //if skill is equal
-            if (
-              selectState.skill.current !== "" &&
-              (selectState.skill.current === item.skill ||
-                selectState.skill.current === item.subSkill)
-            ) {
-              return true;
-            }
-          }
-        }
-        return false;
+        //Check if question has same current subject
+        let subjectMatch = item.subject === selectState.subject.current;
+        let topicMatch =
+          selectState.topic.current === ""
+            ? true
+            : selectState.topic.current === item.topic ||
+              selectState.topic.current === item.subTopic;
+        let skillMatch =
+          selectState.skill.current === ""
+            ? true
+            : selectState.skill.current === item.skill ||
+              selectState.skill.current === item.subSkill;
+        return subjectMatch && topicMatch && skillMatch;
       })
     );
-  }, [selectState, setSelectState]);
+  }, [selectState]);
 
   function handleSelect(e) {
     let attribute = e.target.name;
     let value = e.target.value;
+    console.log(attribute, value);
+    let startingSubject =
+      attribute === "subject" ? value : selectState.subject.current;
+    let subjects = getUniqueNamesBy("subject", allQuestions);
 
-    console.log("handle select", attribute, value);
+    let topics = getUniqueNamesBy(
+      "topic",
+      filterBy(allQuestions, [["subject", startingSubject]])
+    );
+    let startingTopic = attribute === "topic" ? value : topics[0];
 
-    let curSub = selectState.subject.current;
-    let curTop = selectState.topic.current;
-    let curSki = selectState.skill.current;
-
-    if (attribute === "subject") {
-      curSub = value;
-      //if subject, update topics
-      let topics = {};
-      allQuestions.forEach((item) => {
-        if (item.subject == curSub) {
-          if (item.topic && !topics[item.topic]) {
-            topics[item.topic] = 1;
-          }
-
-          if (item.subTopic && !topics[item.subTopic]) {
-            topics[item.subTopic] = 1;
-          }
-        }
-      });
-
-      let newState = {
-        ...selectState,
-        subject: { ...selectState.subject, current: value },
-        topic: {
-          ...selectState.topic,
-          current: Object.keys(topics)[0],
-          disabled: false,
-          items: Object.keys(topics),
-        },
-      };
-
-      setSelectState(newState);
-      console.log(allQuestions);
-      console.log(newState);
-      updateDisplayedQuestions(
-        allQuestions.filter((item) => {
-          //equal to current subject
-          if (item.subject === newState.subject.current) {
-            //if topic is equal
-            if (
-              newState.topic.current !== "" &&
-              (newState.topic.current === item.topic ||
-                newState.topic.current === item.subTopic)
-            ) {
-              return true;
-            }
-          }
-          return false;
-        })
-      );
-    } else if (attribute === "topic") {
-      curTop = value;
-      //if topic changes update skill
-      let skills = {};
-      displayedQuestions.forEach((item) => {
-        if (item.topic == curTop) {
-          if (item.skill && !skills[item.skill]) {
-            skills[item.skill] = 1;
-          }
-
-          if (item.subSkill && !skills[item.subSkill]) {
-            skills[item.subSkill] = 1;
-          }
-        }
-      });
-      setSelectState({
-        ...selectState,
-        topic: { ...selectState.topic, current: curTop },
-        skill: {
-          ...selectState.skill,
-          disabled: false,
-          items: Object.keys(skills),
-        },
-      });
-    } else if (attribute === "skill") {
-      curSki = value;
-      setSelectState({
-        ...selectState,
-        skill: { ...selectState.skill, current: curSki },
-      });
-    }
-
-    //if topic, update skills
+    let skills = getUniqueNamesBy(
+      "skill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+      ])
+    );
+    let startingSkill = attribute === "skill" ? value : skills[0];
+    console.log(startingSubject, startingTopic, startingSkill);
+    console.log(subjects, topics, skills);
+    setSelectState({
+      subject: { items: subjects, current: startingSubject },
+      topic: { items: topics, current: startingTopic },
+      skill: { items: skills, current: startingSkill },
+    });
   }
 
   return (
@@ -183,7 +148,6 @@ function Filter({
               handleChange={handleSelect}
               options={selectState[item].items}
               name={item}
-              disabled={selectState[item].disabled}
               selectedOption={selectState[item].current}
             />
           ))}
