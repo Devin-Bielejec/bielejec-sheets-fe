@@ -34,14 +34,14 @@ function filterBy(arr, propertyValueArr) {
     let curItem = arr[i];
 
     //loop through each prop value
-    let addItemToNewArr = false;
+    let addItemToNewArr = true;
     for (let j = 0; j < propertyValueArr.length; j++) {
       let property = propertyValueArr[j][0];
       let value = propertyValueArr[j][1];
 
       //check if item doesn't work for any property value
-      if (curItem[property] === value) {
-        addItemToNewArr = true;
+      if (curItem[property] !== value) {
+        addItemToNewArr = false;
       }
     }
     if (addItemToNewArr) {
@@ -72,6 +72,7 @@ function Filter({
       filterBy(allQuestions, [
         ["subject", startingSubject],
         ["topic", startingTopic],
+        ["subTopic", startingTopic],
       ])
     );
     let startingSkill = skills[0];
