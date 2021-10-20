@@ -8,8 +8,6 @@ import {
 
 export const updateDisplayedQuestions = (data) => (dispatch) => {
   dispatch({ type: UPDATE_DISPLAYED_QUESTIONS_INITIALIZE });
-
-  console.log(data);
   dispatch({
     type: UPDATE_DISPLAYED_QUESTIONS_SUCCESS,
     payload: {

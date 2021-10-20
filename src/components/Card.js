@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "./Styles.js";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js";
+import { connect } from "react-redux";
 
 const StyledCard = styled.div`
   padding: 5px;
@@ -23,7 +25,12 @@ const Image = styled.img`
 
 //
 
-export default function Card({ question, dispatch }) {
+function Card({
+  documentQuestions,
+  updateDocumentQuestions,
+  question,
+  ...rest
+}) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
 
@@ -38,10 +45,8 @@ export default function Card({ question, dispatch }) {
     for (let i = 0; i < questionCount; i++) {
       questionArr.push(question);
     }
-    dispatch({
-      type: "ADD_QUESTION",
-      questions: questionArr,
-    });
+    console.log("click");
+    updateDocumentQuestions([...documentQuestions, ...questionArr]);
   };
 
   return (
@@ -60,3 +65,12 @@ export default function Card({ question, dispatch }) {
     </StyledCard>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    documentQuestions: state.document.questions,
+  };
+};
+export default connect(mapStateToProps, {
+  updateDocumentQuestions,
+})(Card);

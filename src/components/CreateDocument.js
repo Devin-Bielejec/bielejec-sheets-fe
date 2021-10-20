@@ -11,7 +11,7 @@ import {
   Warning,
 } from "./Styles";
 
-export default function CreateDocument({ state, dispatch }) {
+export default function CreateDocument({ state }) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange",
   });

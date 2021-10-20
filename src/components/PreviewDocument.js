@@ -2,7 +2,8 @@ import React from "react";
 import PreviewCard from "./PreviewCard.js";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-
+import { connect } from "react-redux";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -13,7 +14,7 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const QuestionList = styled.div`
-    background: ${props => (props.isDraggingOver ? "lightblue" : "lightgrey")}
+    background: ${(props) => (props.isDraggingOver ? "lightblue" : "lightgrey")}
     padding: 10px;
     width: 100%
 `;
@@ -25,10 +26,11 @@ const Section = styled.section`
   margin: 0 auto;
 `;
 
-export default function PreviewDocument({ state, dispatch }) {
-  console.log("preview document", state);
-  const questions = state.document.questions;
-
+function PreviewDocument({
+  documentQuestions,
+  updateDocumentQuestions,
+  ...rest
+}) {
   function onDragEnd(result) {
     // dropped outside the list
     if (!result.destination) {
@@ -36,19 +38,15 @@ export default function PreviewDocument({ state, dispatch }) {
     }
 
     const items = reorder(
-      questions,
+      documentQuestions,
       result.source.index,
       result.destination.index
     );
 
-    //dispatch
-    dispatch({
-      type: "UPDATE_ORDER",
-      updatedQuestions: items
-    });
+    updateDocumentQuestions(items);
   }
 
-  if (questions.length === 0) {
+  if (documentQuestions.length === 0) {
     return <p>No items!</p>;
   }
 
@@ -63,12 +61,8 @@ export default function PreviewDocument({ state, dispatch }) {
               ref={provided.innerRef}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {questions.map((question, index) => (
-                <PreviewCard
-                  question={question}
-                  dispatch={dispatch}
-                  index={index}
-                />
+              {documentQuestions.map((question, index) => (
+                <PreviewCard question={question} index={index} />
               ))}
               {provided.placeholder}
             </QuestionList>
@@ -78,3 +72,12 @@ export default function PreviewDocument({ state, dispatch }) {
     </Section>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    documentQuestions: state.document.questions,
+  };
+};
+export default connect(mapStateToProps, {
+  updateDocumentQuestions,
+})(PreviewDocument);

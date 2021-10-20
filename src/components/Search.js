@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Filter from "./Filter.js";
 import { updateAllQuestions } from "../actions/updateAllQuestions";
 import { updateDisplayedQuestions } from "../actions/updateDisplayedQuestions";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { connect } from "react-redux";
 
 const DisplayedQuestions = styled.section`
@@ -48,6 +49,7 @@ function Search({
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     allQuestions: state.allQuestions,
     displayedQuestions: state.displayedQuestions,

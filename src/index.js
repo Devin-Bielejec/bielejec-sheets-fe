@@ -28,6 +28,9 @@ const store = createStore(
 store.subscribe(() => {
   saveState({
     allQuestions: store.getState().allQuestions,
+    document: store.getState().document,
+    displayedQesutions: store.getState().displayedQesutions,
+    userID: store.getState().userID,
   });
 });
 
