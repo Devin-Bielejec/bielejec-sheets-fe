@@ -5,13 +5,14 @@ import reduceReducers from "reduce-reducers";
 // import removeQuestionReducer from "./removeQuestion";
 // import updateAllQuestionsReducer from "./updateAllQuestions";
 import updateDisplayedQuestionsReducer from "./updateDisplayedQuestions";
-// import updateOrderReducer from "./updateOrder";
+import createDocumentReducer from "./createDocument";
 import updateDocumentQuestions from "./updateDocumentQuqestions.js";
 const reducer = reduceReducers(
   initialState,
   updateAllQuestionsReducer,
   updateDisplayedQuestionsReducer,
-  updateDocumentQuestions
+  updateDocumentQuestions,
+  createDocumentReducer
   // addQuestionReducer,
   // loginReducer,
   // removeQuestionReducer,

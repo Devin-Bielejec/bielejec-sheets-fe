@@ -15,7 +15,6 @@ const updateDisplayedQuestionsReducer = (state = initialState, action) => {
         error: "",
       };
     case UPDATE_DISPLAYED_QUESTIONS_SUCCESS:
-      console.log(action.payload.displayedQuestions);
       return {
         ...state,
         displayedQuestions: action.payload.displayedQuestions,
