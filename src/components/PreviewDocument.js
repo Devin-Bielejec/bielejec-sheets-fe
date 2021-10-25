@@ -4,6 +4,8 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
+import { shuffle } from "../utils/index";
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -46,6 +48,10 @@ function PreviewDocument({
     updateDocumentQuestions(items);
   }
 
+  function handleShuffle() {
+    updateDocumentQuestions(shuffle(documentQuestions));
+  }
+
   if (documentQuestions.length === 0) {
     return <p>No items!</p>;
   }
@@ -53,6 +59,7 @@ function PreviewDocument({
   return (
     <Section>
       <h1>YO CHECK THIS OUT</h1>
+      <button onClick={handleShuffle}>Shuffle Questions</button>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (

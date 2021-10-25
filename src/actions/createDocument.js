@@ -24,8 +24,8 @@ export const createDocument = (data) => (dispatch) => {
       dispatch({
         type: CREATE_DOCUMENT_SUCCESS,
         payload: {
-          downloadLink: `${baseURL}/getFile/${data.username}/${data.document.nameOfDoc}`,
-          downloadName: data.document.nameOfDoc,
+          downloadLink: `${baseURL}/getFile/${data.username}/${res.data}`,
+          downloadName: res.data,
         },
       });
       return true;

@@ -29,11 +29,11 @@ function getUniqueNamesBy(property, array, additionalProperty = null) {
 
 function filterBy(arr, propertyValueArr) {
   let newArr = [];
-  //loop through each question
+  //loop through each question object {topic, subTopic, subject, skill, subSkill}
   for (let i = 0; i < arr.length; i++) {
     let curItem = arr[i];
 
-    //loop through each prop value
+    //loop through each [prop: value]
     let addItemToNewArr = true;
     for (let j = 0; j < propertyValueArr.length; j++) {
       let property = propertyValueArr[j][0];
@@ -72,15 +72,24 @@ function Filter({
       filterBy(allQuestions, [
         ["subject", startingSubject],
         ["topic", startingTopic],
-        ["subTopic", startingTopic],
       ])
     );
     let startingSkill = skills[0];
 
+    let subSkills = getUniqueNamesBy(
+      "subSkill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["skill", startingSkill],
+      ])
+    );
+    let startingSubSkill = subSkills[0];
     return {
       subject: { items: subjects, current: startingSubject },
       topic: { items: topics, current: startingTopic },
       skill: { items: skills, current: startingSkill },
+      subSkill: { items: subSkills, current: startingSubSkill },
     };
   });
 
@@ -95,14 +104,16 @@ function Filter({
         let topicMatch =
           selectState.topic.current === ""
             ? true
-            : selectState.topic.current === item.topic ||
-              selectState.topic.current === item.subTopic;
+            : selectState.topic.current === item.topic;
         let skillMatch =
           selectState.skill.current === ""
             ? true
-            : selectState.skill.current === item.skill ||
-              selectState.skill.current === item.subSkill;
-        return subjectMatch && topicMatch && skillMatch;
+            : selectState.skill.current === item.skill;
+        let subSkillMatch =
+          selectState.subSkill.current === ""
+            ? true
+            : selectState.subSkill.current === item.subSkill;
+        return subjectMatch && topicMatch && skillMatch && subSkillMatch;
       })
     );
   }, [selectState]);
@@ -129,12 +140,22 @@ function Filter({
       ])
     );
     let startingSkill = attribute === "skill" ? value : skills[0];
-    console.log(startingSubject, startingTopic, startingSkill);
-    console.log(subjects, topics, skills);
+
+    let subSkills = getUniqueNamesBy(
+      "subSkill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["skill", startingSkill],
+      ])
+    );
+    let startingSubSkill = subSkills[0];
+
     setSelectState({
       subject: { items: subjects, current: startingSubject },
       topic: { items: topics, current: startingTopic },
       skill: { items: skills, current: startingSkill },
+      subSkill: { items: subSkills, current: startingSubSkill },
     });
   }
 

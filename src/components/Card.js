@@ -18,9 +18,10 @@ const StyledCard = styled.div`
 `;
 
 const Image = styled.img`
-  // width: 100%;
+  width: 100%;
   max-width: 500px;
   object-fit: contain;
+  padding: 10px;
 `;
 
 //
