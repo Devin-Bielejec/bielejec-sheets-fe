@@ -94,8 +94,6 @@ function Filter({
   });
 
   React.useEffect(() => {
-    console.log("use effect", selectState);
-    console.log("all Questions", allQuestions);
     //filter of displayed questions for subject, topic, and skill
     updateDisplayedQuestions(
       allQuestions.filter((item) => {
@@ -149,8 +147,9 @@ function Filter({
         ["skill", startingSkill],
       ])
     );
-    let startingSubSkill = subSkills[0];
+    let startingSubSkill = attribute === "subSkill" ? value : subSkills[0];
 
+    console.log(startingSubSkill);
     setSelectState({
       subject: { items: subjects, current: startingSubject },
       topic: { items: topics, current: startingTopic },
