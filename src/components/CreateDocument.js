@@ -70,7 +70,7 @@ function CreateDocument({
             name="spacingBetween"
             placeholder="Spacing Between Questions"
             type="number"
-            defaultValue={0.5}
+            defaultValue={1}
             ref={register({ required: false, min: 0 })}
           />
           {errors.spacingBetween}

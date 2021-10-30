@@ -14,7 +14,9 @@ export default function Select({
 }) {
   return (
     <StyledSelect>
-      <label htmlFor={name}>{name}</label>
+      <label htmlFor={name}>
+        {name.slice(0, 1).toUpperCase() + name.slice(1)}
+      </label>
 
       <select name={name} onChange={handleChange}>
         {options.map((value) => (

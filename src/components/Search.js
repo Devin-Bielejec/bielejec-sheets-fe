@@ -23,13 +23,6 @@ function Search({
   updateDisplayedQuestions,
   ...rest
 }) {
-  React.useEffect(() => {
-    // get default displayed questions
-    updateAllQuestions();
-    updateDisplayedQuestions(allQuestions);
-  }, []);
-
-  console.log("search displayedQuestions", displayedQuestions);
   return (
     <>
       <h1>This is the search page where we can find questions!</h1>
