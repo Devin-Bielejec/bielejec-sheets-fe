@@ -6,7 +6,6 @@ import {
 
 import initialState from "./initialState";
 const createDocumentReducer = (state = initialState, action) => {
-  console.log(state);
   switch (action.type) {
     case CREATE_DOCUMENT_INITIALIZE:
       return {
@@ -15,7 +14,6 @@ const createDocumentReducer = (state = initialState, action) => {
         error: "",
       };
     case CREATE_DOCUMENT_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         document: {

@@ -7,7 +7,6 @@ import {
 import initialState from "./initialState";
 
 const updateDocumentQuestions = (state = initialState, action) => {
-  console.log("update document questions??");
   switch (action.type) {
     case UPDATE_DOCUMENT_QUESTIONS_INITIALIZE:
       return {

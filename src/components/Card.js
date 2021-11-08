@@ -56,6 +56,11 @@ function Card({
       <Image
         src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
       />
+      {Object.keys(question.kwargs).map((kwarg) => (
+        <p>
+          {kwarg}:{question.kwargs[kwarg]}
+        </p>
+      ))}
       <input
         type="number"
         name="questionCount"

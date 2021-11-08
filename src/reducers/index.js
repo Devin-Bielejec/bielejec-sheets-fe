@@ -6,7 +6,7 @@ import reduceReducers from "reduce-reducers";
 // import updateAllQuestionsReducer from "./updateAllQuestions";
 import updateDisplayedQuestionsReducer from "./updateDisplayedQuestions";
 import createDocumentReducer from "./createDocument";
-import updateDocumentQuestions from "./updateDocumentQuqestions.js";
+import updateDocumentQuestions from "./updateDocumentQuestions";
 const reducer = reduceReducers(
   initialState,
   updateAllQuestionsReducer,

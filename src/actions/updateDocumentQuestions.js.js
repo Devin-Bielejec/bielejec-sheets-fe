@@ -7,7 +7,6 @@ import {
 // import { axiosWithAuth, baseURL } from "../utils/index";
 
 export const updateDocumentQuestions = (data) => (dispatch) => {
-  console.log("here");
   dispatch({ type: UPDATE_DOCUMENT_QUESTIONS_INITIALIZE });
 
   //   const token = sessionStorage.getItem("token");

@@ -20,7 +20,7 @@ export default function Select({
 
       <select name={name} onChange={handleChange}>
         {options.map((value) => (
-          <option key={value} value={value}>
+          <option key={value} value={value} selected={value === selectedOption}>
             {value}
           </option>
         ))}

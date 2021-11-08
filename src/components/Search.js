@@ -23,9 +23,12 @@ function Search({
   updateDisplayedQuestions,
   ...rest
 }) {
+  React.useEffect(() => {
+    updateAllQuestions();
+  }, []);
   return (
     <>
-      <h1>This is the search page where we can find questions!</h1>
+      <h1>Search!</h1>
       <Main>
         <Filter />
         {displayedQuestions && displayedQuestions.length > 0 && (
@@ -42,7 +45,6 @@ function Search({
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     allQuestions: state.allQuestions,
     displayedQuestions: state.displayedQuestions,
