@@ -171,6 +171,7 @@ function Filter({
         ])
       );
       curSubSkill = subSkills[0];
+      console.log(subSkills);
     } else if (attribute == "skill") {
       subjects = getUniqueNamesBy("subject", allQuestions);
 
@@ -188,27 +189,33 @@ function Filter({
           ["skill", curSkill],
         ])
       );
+      console.log(subSkills);
       curSubSkill = subSkills[0];
     } else if (attribute == "subSkill") {
       curSubSkill = value;
     }
+    console.log(curSubSkill, !curSubSkill);
     //for each if defined go with value, if not go with state
     setSelectState({
       subject: {
         items: subjects ? subjects : selectState.subject.items,
-        current: curSubject ? curSubject : selectState.subject.current,
+        current:
+          curSubject !== undefined ? curSubject : selectState.subject.current,
       },
       topic: {
         items: topics ? topics : selectState.topic.items,
-        current: curTopic ? curTopic : selectState.topic.current,
+        current: curTopic !== undefined ? curTopic : selectState.topic.current,
       },
       skill: {
         items: skills ? skills : selectState.skill.items,
-        current: curSkill ? curSkill : selectState.skill.current,
+        current: curSkill !== undefined ? curSkill : selectState.skill.current,
       },
       subSkill: {
         items: subSkills ? subSkills : selectState.subSkill.items,
-        current: curSubSkill ? curSubSkill : selectState.subSkill.current,
+        current:
+          curSubSkill !== undefined
+            ? curSubSkill
+            : selectState.subSkill.current,
       },
     });
   }
