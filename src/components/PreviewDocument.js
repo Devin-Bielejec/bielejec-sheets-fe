@@ -52,6 +52,9 @@ function PreviewDocument({
     updateDocumentQuestions(shuffle(documentQuestions));
   }
 
+  function handleRemove() {
+    updateDocumentQuestions([]);
+  }
   if (documentQuestions.length === 0) {
     return <p>No items!</p>;
   }
@@ -60,6 +63,7 @@ function PreviewDocument({
     <Section>
       <h1>YO CHECK THIS OUT</h1>
       <button onClick={handleShuffle}>Shuffle Questions</button>
+      <button onClick={handleRemove}>Remove All Questions</button>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
