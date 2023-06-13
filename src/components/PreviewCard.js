@@ -82,9 +82,7 @@ function PreviewCard({
               </div>
             );
           })} */}
-          <Image
-            src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
-          />
+          <Image src={imgURL} />
           <Button onClick={() => handleClick(question.fileName, index)}>
             Remove Question
           </Button>

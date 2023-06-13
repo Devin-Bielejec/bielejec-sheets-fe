@@ -24,6 +24,8 @@ const Image = styled.img`
 export default function Card({ question, dispatch }) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
+  const imgUrl = question.fileName;
+
   //add selected to kwargs with more than one option
   Object.keys(question.kwargs).forEach((kwarg) => {
     Object.keys(question.kwargs[kwarg]).forEach((oKey, i) => {
@@ -125,9 +127,7 @@ export default function Card({ question, dispatch }) {
   return (
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
-      <Image
-        src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
-      />
+      <Image src={imgUrl} />
       {/* button to add integer amounts*/}
       {/* <form>
         {Object.keys(question.kwargs).map((kwarg) => {

@@ -34,6 +34,7 @@ function Card({
 }) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
+  const imgURL = question.fileName;
 
   function handleQuestionCountChange(e) {
     setQuestionCount(e.target.value);
@@ -53,9 +54,7 @@ function Card({
   return (
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
-      <Image
-        src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
-      />
+      <Image src={imgURL} />
       {Object.keys(question.kwargs).map((kwarg) => (
         <p>
           {kwarg}:{question.kwargs[kwarg]}
