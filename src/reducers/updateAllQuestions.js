@@ -5,7 +5,6 @@ import {
 } from "../actions/index.js";
 
 import initialState from "./initialState";
-
 const updateAllQuestionsReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_ALL_QUESTIONS_INITIALIZE:

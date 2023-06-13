@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { Button } from "./Styles.js";
 
+import { connect } from "react-redux";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
+import { UPDATE_DOCUMENT_QUESTIONS_SUCCESS } from "../actions/index.js";
+
 const StyledCard = styled.div`
   padding: 5px;
   width: 50%;
@@ -29,17 +33,22 @@ const IndexTitle = styled.h2`
   z-index: -10;
 `;
 
-export default function PreviewCard({ question, dispatch, index }) {
+function PreviewCard({
+  index,
+  question,
+  documentQuestions,
+  updateDocumentQuestions,
+}) {
   const id = question.fileName;
   const imgURL = question.fileName;
   console.log(question);
-  //We'll add ability to add more than one question later
+
   const handleClick = (fileName, index) => {
-    dispatch({
-      type: "REMOVE_QUESTION",
-      fileName: fileName,
-      index: index,
-    });
+    //remove question
+    updateDocumentQuestions([
+      ...documentQuestions.slice(0, index),
+      ...documentQuestions.slice(index + 1),
+    ]);
   };
 
   return (
@@ -73,9 +82,7 @@ export default function PreviewCard({ question, dispatch, index }) {
               </div>
             );
           })} */}
-          <Image
-            src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
-          />
+          <Image src={imgURL} />
           <Button onClick={() => handleClick(question.fileName, index)}>
             Remove Question
           </Button>
@@ -84,3 +91,12 @@ export default function PreviewCard({ question, dispatch, index }) {
     </Draggable>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    documentQuestions: state.document.questions,
+  };
+};
+export default connect(mapStateToProps, {
+  updateDocumentQuestions,
+})(PreviewCard);

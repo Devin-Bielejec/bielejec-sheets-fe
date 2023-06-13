@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Filter from "./Filter.js";
 import { updateAllQuestions } from "../actions/updateAllQuestions";
 import { updateDisplayedQuestions } from "../actions/updateDisplayedQuestions";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { connect } from "react-redux";
 
 const DisplayedQuestions = styled.section`
@@ -23,15 +24,11 @@ function Search({
   ...rest
 }) {
   React.useEffect(() => {
-    // get default displayed questions
     updateAllQuestions();
-    updateDisplayedQuestions(allQuestions);
   }, []);
-
-  console.log("search displayedQuestions", displayedQuestions);
   return (
     <>
-      <h1>This is the search page where we can find questions!</h1>
+      <h1>Search!</h1>
       <Main>
         <Filter />
         {displayedQuestions && displayedQuestions.length > 0 && (

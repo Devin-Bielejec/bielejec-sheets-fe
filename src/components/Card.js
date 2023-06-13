@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "./Styles.js";
+import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js";
+import { connect } from "react-redux";
 
 const StyledCard = styled.div`
   padding: 5px;
@@ -16,16 +18,23 @@ const StyledCard = styled.div`
 `;
 
 const Image = styled.img`
-  // width: 100%;
+  width: 100%;
   max-width: 500px;
   object-fit: contain;
+  padding: 10px;
 `;
 
 //
 
-export default function Card({ question, dispatch }) {
+function Card({
+  documentQuestions,
+  updateDocumentQuestions,
+  question,
+  ...rest
+}) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
+  const imgURL = question.fileName;
 
   function handleQuestionCountChange(e) {
     setQuestionCount(e.target.value);
@@ -38,18 +47,19 @@ export default function Card({ question, dispatch }) {
     for (let i = 0; i < questionCount; i++) {
       questionArr.push(question);
     }
-    dispatch({
-      type: "ADD_QUESTION",
-      questions: questionArr,
-    });
+    console.log("click");
+    updateDocumentQuestions([...documentQuestions, ...questionArr]);
   };
 
   return (
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
-      <Image
-        src={require(`F:/code/bielejec-sheets-be/creatingWorksheets/images/${question.fileName}.jpg`)}
-      />
+      <Image src={imgURL} />
+      {Object.keys(question.kwargs).map((kwarg) => (
+        <p>
+          {kwarg}:{question.kwargs[kwarg]}
+        </p>
+      ))}
       <input
         type="number"
         name="questionCount"
@@ -60,3 +70,12 @@ export default function Card({ question, dispatch }) {
     </StyledCard>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    documentQuestions: state.document.questions,
+  };
+};
+export default connect(mapStateToProps, {
+  updateDocumentQuestions,
+})(Card);

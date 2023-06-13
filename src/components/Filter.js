@@ -29,11 +29,11 @@ function getUniqueNamesBy(property, array, additionalProperty = null) {
 
 function filterBy(arr, propertyValueArr) {
   let newArr = [];
-  //loop through each question
+  //loop through each question object {topic, subTopic, subject, skill, subSkill}
   for (let i = 0; i < arr.length; i++) {
     let curItem = arr[i];
 
-    //loop through each prop value
+    //loop through each [prop: value]
     let addItemToNewArr = true;
     for (let j = 0; j < propertyValueArr.length; j++) {
       let property = propertyValueArr[j][0];
@@ -72,21 +72,30 @@ function Filter({
       filterBy(allQuestions, [
         ["subject", startingSubject],
         ["topic", startingTopic],
-        ["subTopic", startingTopic],
       ])
     );
     let startingSkill = skills[0];
 
+    let subSkills = getUniqueNamesBy(
+      "subSkill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["skill", startingSkill],
+      ])
+    );
+    let startingSubSkill = subSkills[0];
     return {
       subject: { items: subjects, current: startingSubject },
       topic: { items: topics, current: startingTopic },
       skill: { items: skills, current: startingSkill },
+      subSkill: { items: subSkills, current: startingSubSkill },
     };
   });
 
   React.useEffect(() => {
-    console.log("use effect", selectState);
-    console.log("all Questions", allQuestions);
+    console.log("useeffect", allQuestions);
+    console.log("select state", selectState);
     //filter of displayed questions for subject, topic, and skill
     updateDisplayedQuestions(
       allQuestions.filter((item) => {
@@ -95,14 +104,18 @@ function Filter({
         let topicMatch =
           selectState.topic.current === ""
             ? true
-            : selectState.topic.current === item.topic ||
-              selectState.topic.current === item.subTopic;
+            : selectState.topic.current === item.topic;
         let skillMatch =
-          selectState.skill.current === ""
+          selectState.skill.current === "" ||
+          selectState.skill.current === undefined
             ? true
-            : selectState.skill.current === item.skill ||
-              selectState.skill.current === item.subSkill;
-        return subjectMatch && topicMatch && skillMatch;
+            : selectState.skill.current === item.skill;
+        let subSkillMatch =
+          selectState.subSkill.current === "" ||
+          selectState.subSkill === undefined
+            ? true
+            : selectState.subSkill.current === item.subSkill;
+        return subjectMatch && topicMatch && skillMatch && subSkillMatch;
       })
     );
   }, [selectState]);
@@ -110,38 +123,106 @@ function Filter({
   function handleSelect(e) {
     let attribute = e.target.name;
     let value = e.target.value;
-    console.log(attribute, value);
-    let startingSubject =
-      attribute === "subject" ? value : selectState.subject.current;
-    let subjects = getUniqueNamesBy("subject", allQuestions);
 
-    let topics = getUniqueNamesBy(
-      "topic",
-      filterBy(allQuestions, [["subject", startingSubject]])
-    );
-    let startingTopic = attribute === "topic" ? value : topics[0];
+    let curSubject, curSkill, curTopic, curSubSkill;
+    let subjects, topics, skills, subSkills;
+    if (attribute == "subject") {
+      curSubject = value;
+      topics = getUniqueNamesBy(
+        "topic",
+        filterBy(allQuestions, [["subject", curSubject]])
+      );
+      curTopic = topics[0];
+      skills = getUniqueNamesBy(
+        "skill",
+        filterBy(allQuestions, [
+          ["subject", curSubject],
+          ["topic", curTopic],
+        ])
+      );
+      curSkill = skills[0];
+      subSkills = getUniqueNamesBy(
+        "subSkill",
+        filterBy(allQuestions, [
+          ["subject", curSubject],
+          ["topic", curTopic],
+          ["skill", curSkill],
+        ])
+      );
+      curSubSkill = subSkills[0];
+    } else if (attribute == "topic") {
+      subjects = getUniqueNamesBy("subject", allQuestions);
+      curSubject = selectState.subject.current;
+      curTopic = value;
+      skills = getUniqueNamesBy(
+        "skill",
+        filterBy(allQuestions, [
+          ["subject", curSubject],
+          ["topic", curTopic],
+        ])
+      );
+      curSkill = skills[0];
+      subSkills = getUniqueNamesBy(
+        "subSkill",
+        filterBy(allQuestions, [
+          ["subject", curSubject],
+          ["topic", curTopic],
+          ["skill", curSkill],
+        ])
+      );
+      curSubSkill = subSkills[0];
+      console.log(subSkills);
+    } else if (attribute == "skill") {
+      subjects = getUniqueNamesBy("subject", allQuestions);
 
-    let skills = getUniqueNamesBy(
-      "skill",
-      filterBy(allQuestions, [
-        ["subject", startingSubject],
-        ["topic", startingTopic],
-      ])
-    );
-    let startingSkill = attribute === "skill" ? value : skills[0];
-    console.log(startingSubject, startingTopic, startingSkill);
-    console.log(subjects, topics, skills);
+      //get previous values from state
+      curSubject = selectState.subject.current;
+      curTopic = selectState.topic.current;
+
+      //get value from select
+      curSkill = value;
+      subSkills = getUniqueNamesBy(
+        "subSkill",
+        filterBy(allQuestions, [
+          ["subject", curSubject],
+          ["topic", curTopic],
+          ["skill", curSkill],
+        ])
+      );
+      console.log(subSkills);
+      curSubSkill = subSkills[0];
+    } else if (attribute == "subSkill") {
+      curSubSkill = value;
+    }
+    console.log(curSubSkill, !curSubSkill);
+    //for each if defined go with value, if not go with state
     setSelectState({
-      subject: { items: subjects, current: startingSubject },
-      topic: { items: topics, current: startingTopic },
-      skill: { items: skills, current: startingSkill },
+      subject: {
+        items: subjects ? subjects : selectState.subject.items,
+        current:
+          curSubject !== undefined ? curSubject : selectState.subject.current,
+      },
+      topic: {
+        items: topics ? topics : selectState.topic.items,
+        current: curTopic !== undefined ? curTopic : selectState.topic.current,
+      },
+      skill: {
+        items: skills ? skills : selectState.skill.items,
+        current: curSkill !== undefined ? curSkill : selectState.skill.current,
+      },
+      subSkill: {
+        items: subSkills ? subSkills : selectState.subSkill.items,
+        current:
+          curSubSkill !== undefined
+            ? curSubSkill
+            : selectState.subSkill.current,
+      },
     });
   }
-
   return (
     <FilterStyled>
       <StyledForm>
-        {allQuestions &&
+        {displayedQuestions &&
           Object.keys(selectState).map((item, i) => (
             <Select
               key={i}

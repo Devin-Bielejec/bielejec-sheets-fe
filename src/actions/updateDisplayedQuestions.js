@@ -7,9 +7,8 @@ import {
 // import { axiosWithAuth, baseURL } from "../utils/index";
 
 export const updateDisplayedQuestions = (data) => (dispatch) => {
+  console.log("update displayed questions data", data);
   dispatch({ type: UPDATE_DISPLAYED_QUESTIONS_INITIALIZE });
-
-  console.log(data);
   dispatch({
     type: UPDATE_DISPLAYED_QUESTIONS_SUCCESS,
     payload: {

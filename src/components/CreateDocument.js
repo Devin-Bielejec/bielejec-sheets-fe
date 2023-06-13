@@ -10,21 +10,23 @@ import {
   StyledInput,
   Warning,
 } from "./Styles";
+import { connect } from "react-redux";
+import { createDocument } from "../actions/createDocument";
 
-export default function CreateDocument({ state, dispatch }) {
+function CreateDocument({
+  documentQuestions,
+  downloadName,
+  downloadLink,
+  createDocument,
+  isFetching,
+}) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange",
   });
-  const [downloadName, setDownloadName] = useState("");
-
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [downloadLink, setDownloadLink] = useState("");
 
   let history = useHistory();
-  console.log("createDocument state", state);
+
   const onSubmit = (data) => {
-    setIsDownloading(true);
-    console.log("createDocument data", state);
     //when we send to backend, we have to send only kwargs that are selected
     let newDocument = {
       nameOfDoc: data.nameOfDoc,
@@ -32,30 +34,13 @@ export default function CreateDocument({ state, dispatch }) {
       collatedAnswerKey: data.collatedAnswerKey,
       columns: parseInt(data.columns),
       numberOfVersions: parseInt(data.numberOfVersions),
-      questions: [...state.document.questions],
+      questions: [...documentQuestions],
     };
 
     console.log(newDocument);
-
-    axiosWithAuth()
-      .post("/createDocument", {
-        data: {
-          document: newDocument,
-          username: "testingUserName",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-
-        setDownloadName(newDocument.nameOfDoc);
-        setDownloadLink(
-          `http://localhost:5000/getFile/testingUserID/${newDocument.nameOfDoc}`
-        );
-        setIsDownloading(false);
-      })
-      .catch((err) => console.log(err));
+    createDocument({ document: newDocument, username: "testingUserName" });
   };
-
+  console.log(downloadLink, downloadName);
   return (
     <Flex justifyContent="center">
       <Background>
@@ -85,7 +70,7 @@ export default function CreateDocument({ state, dispatch }) {
             name="spacingBetween"
             placeholder="Spacing Between Questions"
             type="number"
-            defaultValue={0.5}
+            defaultValue={1}
             ref={register({ required: false, min: 0 })}
           />
           {errors.spacingBetween}
@@ -113,7 +98,7 @@ export default function CreateDocument({ state, dispatch }) {
           <SubmitButton type="submit" disabled={!formState.isValid}>
             Create Document
           </SubmitButton>
-          {isDownloading && <p>Downloading in Progress...</p>}
+          {isFetching && <p>Downloading in Progress...</p>}
           {downloadLink && (
             <div>
               <a
@@ -130,3 +115,15 @@ export default function CreateDocument({ state, dispatch }) {
     </Flex>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    documentQuestions: state.document.questions,
+    downloadName: state.document.downloadName,
+    downloadLink: state.document.downloadLink,
+    isFetching: state.isFetching,
+  };
+};
+export default connect(mapStateToProps, {
+  createDocument,
+})(CreateDocument);
