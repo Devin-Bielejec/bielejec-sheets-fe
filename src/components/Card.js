@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button } from "./Styles.js";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js";
 import { connect } from "react-redux";
+import { baseURLStatic } from "../utils/index.js";
 
 const StyledCard = styled.div`
   padding: 5px;
@@ -34,7 +35,6 @@ function Card({
 }) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
-  const imgURL = question.fileName;
 
   function handleQuestionCountChange(e) {
     setQuestionCount(e.target.value);
@@ -54,7 +54,7 @@ function Card({
   return (
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
-      <Image src={imgURL} />
+      <Image src={baseURLStatic + question.fileName + ".jpg"} />
       {Object.keys(question.kwargs).map((kwarg) => (
         <p>
           {kwarg}:{question.kwargs[kwarg]}
