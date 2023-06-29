@@ -55,11 +55,6 @@ function Card({
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
       <Image src={baseURLStatic + question.fileName + ".jpg"} />
-      {Object.keys(question.kwargs).map((kwarg) => (
-        <p>
-          {kwarg}:{question.kwargs[kwarg]}
-        </p>
-      ))}
       <input
         type="number"
         name="questionCount"
