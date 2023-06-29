@@ -1,13 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./Styles.js";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js";
 import { connect } from "react-redux";
 import { baseURLStatic } from "../utils/index.js";
-import NumberInput from "./NumberInput.js";
+import {
+  Flex,
+  Background,
+  Form,
+  SubmitButton,
+  StyledInput,
+  Warning,
+  StyledLink,
+  Text,
+  Button,
+} from "./Styles";
 
 const StyledCard = styled.div`
-  padding: 5px;
+  padding: 10px;
   width: 40%;
   border: 1px solid black;
   border-radius: 15px;
@@ -17,11 +26,12 @@ const StyledCard = styled.div`
   justify-content: space-between;
   align-items: center;
   max-width: 400px;
+  background-color: white;
 `;
 
 const Image = styled.img`
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   object-fit: contain;
   padding: 10px;
 `;

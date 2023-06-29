@@ -3,15 +3,20 @@ import styled from "styled-components";
 import Select from "./Select";
 import { connect } from "react-redux";
 import { updateDisplayedQuestions } from "../actions/updateDisplayedQuestions";
+import { devices } from "../utils/constants";
 
 const FilterStyled = styled.section`
   border: 1px solid black;
   padding: 10px;
   margin: 10px;
+  border-radius: 20px;
 `;
 
 const StyledForm = styled.form`
   display: flex;
+  @media only screen and ${devices.md} {
+    flex-direction: column;
+  }
 `;
 
 function getUniqueNamesBy(property, array, additionalProperty = null) {

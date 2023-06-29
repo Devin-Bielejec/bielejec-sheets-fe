@@ -39,6 +39,10 @@ export const Button = styled.button`
   border-radius: 0;
   opacity: 1;
   margin-top: 0.75em;
+
+  width: 100%;
+  text-align: center;
+
   transition: 0.25s opacity cubic-bezier(0.98, 0.26, 0.52, 0.96);
   &:hover {
     cursor: pointer;
@@ -63,6 +67,7 @@ export const SubmitButton = styled(Button)`
 `;
 
 export const StyledInput = styled.input`
+  width: 100%;
   margin: 0.8em 0;
   font-family: "Play", sans-serif;
   padding: 0.75em 3em 0.75em 0.5em;
