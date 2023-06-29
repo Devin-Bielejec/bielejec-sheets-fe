@@ -14,6 +14,7 @@ import {
   Text,
   Button,
 } from "./Styles";
+import NumberInput from "./NumberInput.js";
 
 const StyledCard = styled.div`
   padding: 10px;
