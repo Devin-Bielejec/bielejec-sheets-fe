@@ -31,7 +31,7 @@ const StyledCard = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   object-fit: contain;
   padding: 10px;
 `;
@@ -78,7 +78,7 @@ function Card({
         value={questionCount}
         onChange={handleQuestionCountChange}
       />
-      <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
+      <Button onClick={() => handleAddQuestionClick()}>Add</Button>
     </StyledCard>
   );
 }
