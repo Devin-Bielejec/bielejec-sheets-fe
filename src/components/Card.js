@@ -47,8 +47,8 @@ function Card({
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
 
-  function handleQuestionCountChange(e) {
-    setQuestionCount(e.target.value);
+  function handleQuestionCountChange(val) {
+    setQuestionCount(questionCount + val);
   }
 
   //We'll add ability to add more than one question later
@@ -66,7 +66,11 @@ function Card({
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
       <Image src={baseURLStatic + question.fileName + ".jpg"} />
-      <Button onClick={() => handleAddQuestionClick()}>Add</Button>
+      <NumberInput
+        questionCount={questionCount}
+        handleQuestionCountChange={handleQuestionCountChange}
+      />
+      <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
     </StyledCard>
   );
 }
