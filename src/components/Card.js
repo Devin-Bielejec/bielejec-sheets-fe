@@ -66,18 +66,6 @@ function Card({
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
       <Image src={baseURLStatic + question.fileName + ".jpg"} />
-      {Object.keys(question.kwargs).map((kwarg) => (
-        <p>
-          {kwarg}:{question.kwargs[kwarg]}
-        </p>
-      ))}
-      <StyledInput
-        type="number"
-        name="questionCount"
-        placehold={questionCount}
-        value={questionCount}
-        onChange={handleQuestionCountChange}
-      />
       <Button onClick={() => handleAddQuestionClick()}>Add</Button>
     </StyledCard>
   );
