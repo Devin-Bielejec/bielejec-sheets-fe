@@ -1,11 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./Styles.js";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js";
 import { connect } from "react-redux";
+import { baseURLStatic } from "../utils/index.js";
+import {
+  Flex,
+  Background,
+  Form,
+  SubmitButton,
+  StyledInput,
+  Warning,
+  StyledLink,
+  Text,
+  Button,
+} from "./Styles";
 
 const StyledCard = styled.div`
-  padding: 5px;
+  padding: 10px;
   width: 40%;
   border: 1px solid black;
   border-radius: 15px;
@@ -15,6 +26,7 @@ const StyledCard = styled.div`
   justify-content: space-between;
   align-items: center;
   max-width: 400px;
+  background-color: white;
 `;
 
 const Image = styled.img`
@@ -34,7 +46,6 @@ function Card({
 }) {
   const id = question.id;
   const [questionCount, setQuestionCount] = React.useState(1);
-  const imgURL = question.fileName;
 
   function handleQuestionCountChange(e) {
     setQuestionCount(e.target.value);
@@ -54,15 +65,16 @@ function Card({
   return (
     <StyledCard key={id} id={id}>
       {/* TEMP Local image storage from BE */}
-      <Image src={imgURL} />
+      <Image src={baseURLStatic + question.fileName + ".jpg"} />
       {Object.keys(question.kwargs).map((kwarg) => (
         <p>
           {kwarg}:{question.kwargs[kwarg]}
         </p>
       ))}
-      <input
+      <StyledInput
         type="number"
         name="questionCount"
+        placehold={questionCount}
         value={questionCount}
         onChange={handleQuestionCountChange}
       />
