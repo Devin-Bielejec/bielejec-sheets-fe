@@ -17,10 +17,8 @@ import {
 import NumberInput from "./NumberInput.js";
 
 const StyledCard = styled.div`
-  padding: 10px;
   width: 40%;
   border: 1px solid black;
-  border-radius: 15px;
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -35,6 +33,8 @@ const Image = styled.img`
   max-width: 400px;
   object-fit: contain;
   padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid gray;
 `;
 
 //
@@ -68,7 +68,6 @@ function Card({
 
   return (
     <StyledCard key={id} id={id}>
-      {/* TEMP Local image storage from BE */}
       <Image src={baseURLStatic + question.fileName + ".jpg"} />
       <NumberInput
         questionCount={questionCount}
