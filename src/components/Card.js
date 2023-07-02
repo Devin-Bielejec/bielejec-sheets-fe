@@ -49,7 +49,10 @@ function Card({
   const [questionCount, setQuestionCount] = React.useState(1);
 
   function handleQuestionCountChange(val) {
-    setQuestionCount(questionCount + val);
+    //So question count cannot be less than 0 for the user
+    if (questionCount + val >= 0) {
+      setQuestionCount(questionCount + val);
+    }
   }
 
   //We'll add ability to add more than one question later

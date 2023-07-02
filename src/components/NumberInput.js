@@ -13,6 +13,12 @@ const InputContainer = styled.div`
 
 const Button = styled.button`
   background-color: ${(props) => props.color};
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 export default function NumberInput({
@@ -26,15 +32,11 @@ export default function NumberInput({
   //callback arrow function allows us to pass values
   return (
     <InputContainer>
-      <Button
-        color={"green"}
-        name="add"
-        onClick={() => handleQuestionCountChange(-1)}
-      >
+      <Button color={"#f44336"} onClick={() => handleQuestionCountChange(-1)}>
         -
       </Button>
       <Input type="numeric" name="questionCount" value={questionCount} />
-      <Button color={"red"} onClick={() => handleQuestionCountChange(1)}>
+      <Button color={"#4CAF50"} onClick={() => handleQuestionCountChange(1)}>
         +
       </Button>
     </InputContainer>
