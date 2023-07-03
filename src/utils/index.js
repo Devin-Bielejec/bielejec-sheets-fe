@@ -41,3 +41,42 @@ export function shuffle(array) {
 
   return array;
 }
+
+export function filterAndMapByDifficulty(array) {
+  let newArr = [];
+
+  for (let i = 0; i < array.length; i++) {
+    let cur = array[i];
+    let temp = [];
+    let fileNameHash = {};
+    fileNameHash[cur.fileName] = 1;
+    //get cur kwargs that aren't difficulty
+    let kwargs = Object.keys(cur.kwargs).filter((i) => i != "difficulty");
+    temp = [
+      cur,
+      ...array.filter((i) => {
+        if (fileNameHash[i.fileName]) {
+          fileNameHash[i.fileName]++;
+        } else {
+          fileNameHash[i.fileName] = 1;
+        }
+
+        //matching ids
+        if (i.id == cur.id && fileNameHash[i.fileName] == 1) {
+          //now check to make sure kwarg values match
+          let valuesMatch = true;
+          for (let key of kwargs) {
+            if (cur.kwargs[key] != i.kwargs[key]) {
+              valuesMatch = false;
+            }
+          }
+          if (valuesMatch && fileNameHash[i.fileName] == 1) {
+            return i;
+          }
+        }
+      }),
+    ];
+    newArr.push(temp);
+  }
+  return newArr;
+}

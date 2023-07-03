@@ -26,6 +26,8 @@ function Search({
   React.useEffect(() => {
     updateAllQuestions();
   }, []);
+
+  console.log("displayed Questions", displayedQuestions);
   return (
     <>
       <h1>Search!</h1>
