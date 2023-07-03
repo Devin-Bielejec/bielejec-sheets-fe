@@ -76,6 +76,7 @@ export function filterAndMapByDifficulty(array) {
         }
       }),
     ];
+    temp.sort((a, b) => a.kwargs.difficulty - b.kwargs.difficulty);
     newArr.push(temp);
   }
   return newArr;
