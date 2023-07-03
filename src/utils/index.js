@@ -44,25 +44,23 @@ export function shuffle(array) {
 
 export function filterAndMapByDifficulty(array) {
   let newArr = [];
+  let fileNameHash = {};
 
   for (let i = 0; i < array.length; i++) {
     let cur = array[i];
     let temp = [];
-    let fileNameHash = {};
-    fileNameHash[cur.fileName] = 1;
+    if (fileNameHash[cur.fileName]) continue;
+
+    fileNameHash[cur.fileName] = true;
     //get cur kwargs that aren't difficulty
     let kwargs = Object.keys(cur.kwargs).filter((i) => i != "difficulty");
+
+    //add current item with rest of items filtered
     temp = [
       cur,
       ...array.filter((i) => {
-        if (fileNameHash[i.fileName]) {
-          fileNameHash[i.fileName]++;
-        } else {
-          fileNameHash[i.fileName] = 1;
-        }
-
         //matching ids
-        if (i.id == cur.id && fileNameHash[i.fileName] == 1) {
+        if (i.id == cur.id) {
           //now check to make sure kwarg values match
           let valuesMatch = true;
           for (let key of kwargs) {
@@ -70,7 +68,11 @@ export function filterAndMapByDifficulty(array) {
               valuesMatch = false;
             }
           }
-          if (valuesMatch && fileNameHash[i.fileName] == 1) {
+
+          //if kwargs match to current item
+          if (valuesMatch) {
+            //now that we're going to return this item, we want to make sure we don't use it again thus adding to hash
+            fileNameHash[i.fileName] = true;
             return i;
           }
         }
