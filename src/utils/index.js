@@ -57,7 +57,6 @@ export function filterAndMapByDifficulty(array) {
 
     //add current item with rest of items filtered
     temp = [
-      cur,
       ...array.filter((i) => {
         //matching ids
         if (i.id == cur.id) {

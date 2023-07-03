@@ -37,7 +37,18 @@ const Image = styled.img`
   border-bottom: 2px solid gray;
 `;
 
-//
+const Container = styled.section`
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+`;
+
+const DifficultyButton = styled.button`
+  background-color: white;
+  color: black;
+  width: 50%;
+  height: 50%;
+`;
 
 function Card({
   documentQuestions,
@@ -58,6 +69,10 @@ function Card({
     }
   }
 
+  function handleChangeDifficultyClick(fileName) {
+    setCurrentQuestion(questionGroup.filter((i) => i.fileName == fileName)[0]);
+  }
+
   //We'll add ability to add more than one question later
   const handleAddQuestionClick = () => {
     //add count many questions
@@ -72,6 +87,19 @@ function Card({
   return (
     <StyledCard key={id} id={id}>
       <Image src={baseURLStatic + currentQuestion.fileName + ".jpg"} />
+      <Container>
+        <h3>Difficulty: </h3>
+
+        {questionGroup.map((i) => (
+          <DifficultyButton
+            difficulty={i.kwargs.difficulty}
+            id={i.fileName}
+            onClick={() => handleChangeDifficultyClick(i.fileName)}
+          >
+            {i.kwargs.difficulty}
+          </DifficultyButton>
+        ))}
+      </Container>
       <NumberInput
         questionCount={questionCount}
         handleQuestionCountChange={handleQuestionCountChange}
