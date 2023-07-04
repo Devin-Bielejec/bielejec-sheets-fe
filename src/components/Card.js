@@ -39,15 +39,31 @@ const Image = styled.img`
 
 const Container = styled.section`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  width: 50%;
+  align-items: center;
+  width: 100%;
 `;
 
 const DifficultyButton = styled.button`
   background-color: white;
   color: black;
-  width: 50%;
-  height: 50%;
+  width: 3rem;
+  height: 3rem;
+  border-color: gray;
+  border: 1px solid;
+  &:hover {
+    cursor: pointer;
+    border: 3px solid black;
+  }
+`;
+
+const ButtonsGroup = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 10px 30px;
 `;
 
 function Card({
@@ -88,17 +104,18 @@ function Card({
     <StyledCard key={id} id={id}>
       <Image src={baseURLStatic + currentQuestion.fileName + ".jpg"} />
       <Container>
-        <h3>Difficulty: </h3>
-
-        {questionGroup.map((i) => (
-          <DifficultyButton
-            difficulty={i.kwargs.difficulty}
-            id={i.fileName}
-            onClick={() => handleChangeDifficultyClick(i.fileName)}
-          >
-            {i.kwargs.difficulty}
-          </DifficultyButton>
-        ))}
+        <h3>Choose Difficulty: </h3>
+        <ButtonsGroup>
+          {questionGroup.map((i) => (
+            <DifficultyButton
+              difficulty={i.kwargs.difficulty}
+              id={i.fileName}
+              onClick={() => handleChangeDifficultyClick(i.fileName)}
+            >
+              {i.kwargs.difficulty}
+            </DifficultyButton>
+          ))}
+        </ButtonsGroup>
       </Container>
       <NumberInput
         questionCount={questionCount}
