@@ -103,20 +103,22 @@ function Card({
   return (
     <StyledCard key={id} id={id}>
       <Image src={baseURLStatic + currentQuestion.fileName + ".jpg"} />
-      <Container>
-        <h3>Choose Difficulty: </h3>
-        <ButtonsGroup>
-          {questionGroup.map((i) => (
-            <DifficultyButton
-              difficulty={i.kwargs.difficulty}
-              id={i.fileName}
-              onClick={() => handleChangeDifficultyClick(i.fileName)}
-            >
-              {i.kwargs.difficulty}
-            </DifficultyButton>
-          ))}
-        </ButtonsGroup>
-      </Container>
+      {questionGroup[0].kwargs.difficulty && (
+        <Container>
+          <h3>Choose Difficulty: </h3>
+          <ButtonsGroup>
+            {questionGroup.map((i) => (
+              <DifficultyButton
+                difficulty={i.kwargs.difficulty}
+                id={i.fileName}
+                onClick={() => handleChangeDifficultyClick(i.fileName)}
+              >
+                {i.kwargs.difficulty}
+              </DifficultyButton>
+            ))}
+          </ButtonsGroup>
+        </Container>
+      )}
       <NumberInput
         questionCount={questionCount}
         handleQuestionCountChange={handleQuestionCountChange}

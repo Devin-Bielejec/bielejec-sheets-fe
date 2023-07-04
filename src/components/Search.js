@@ -30,7 +30,6 @@ function Search({
   console.log("displayed Questions", displayedQuestions);
   return (
     <>
-      <h1>Search!</h1>
       <Main>
         <Filter />
         {displayedQuestions && displayedQuestions.length > 0 && (
