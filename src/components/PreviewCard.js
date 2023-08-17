@@ -67,22 +67,6 @@ function PreviewCard({
           draggableStyles={provided.draggableProps.style}
         >
           <IndexTitle>{index + 1}</IndexTitle>
-          {/* {Object.keys(question.kwargs).map((kwarg) => {
-            return (
-              <div>
-                {Object.keys(question.kwargs[kwarg]).map((option) => {
-                  console.log(option);
-                  if (question.kwargs[kwarg][option].selected) {
-                    return (
-                      <p key={option}>
-                        {kwarg}:{question.kwargs[kwarg][option].value}
-                      </p>
-                    );
-                  }
-                })}
-              </div>
-            );
-          })} */}
           <Image src={baseURLStatic + question.fileName + ".jpg"} />
           <Button onClick={() => handleClick(question.fileName, index)}>
             Remove Question

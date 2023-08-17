@@ -33,6 +33,19 @@ function PreviewDocument({
   updateDocumentQuestions,
   ...rest
 }) {
+  //For confirmation on removing questions
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+
+  function handleRemoveAll(e) {
+    console.log(e);
+
+    updateDocumentQuestions([]);
+  }
+
+  function handleConfirmation(b) {
+    setShowConfirmation(!b);
+  }
+
   function onDragEnd(result) {
     // dropped outside the list
     if (!result.destination) {
@@ -52,11 +65,6 @@ function PreviewDocument({
     updateDocumentQuestions(shuffle(documentQuestions));
   }
 
-  function handleRemove() {
-    if (window.confirm("ya?")) {
-      updateDocumentQuestions([]);
-    }
-  }
   if (documentQuestions.length === 0) {
     return <p>No items!</p>;
   }
@@ -65,7 +73,16 @@ function PreviewDocument({
     <Section>
       <h1>Preview Your Document</h1>
       <button onClick={handleShuffle}>Shuffle Questions</button>
-      <button onClick={handleRemove}>Remove All Questions</button>
+      <button onClick={() => handleConfirmation(false)}>
+        Remove All Questions
+      </button>
+      {showConfirmation && (
+        <section>
+          Do you want to delete all?
+          <button onClick={() => handleConfirmation(true)}>Cancel</button>
+          <button onClick={handleRemoveAll}>Yes</button>
+        </section>
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
