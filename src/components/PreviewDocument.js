@@ -53,7 +53,9 @@ function PreviewDocument({
   }
 
   function handleRemove() {
-    updateDocumentQuestions([]);
+    if (window.confirm("ya?")) {
+      updateDocumentQuestions([]);
+    }
   }
   if (documentQuestions.length === 0) {
     return <p>No items!</p>;
@@ -61,7 +63,7 @@ function PreviewDocument({
 
   return (
     <Section>
-      <h1>YO CHECK THIS OUT</h1>
+      <h1>Preview Your Document</h1>
       <button onClick={handleShuffle}>Shuffle Questions</button>
       <button onClick={handleRemove}>Remove All Questions</button>
       <DragDropContext onDragEnd={onDragEnd}>

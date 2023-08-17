@@ -6,6 +6,7 @@ import { Button } from "./Styles.js";
 import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { UPDATE_DOCUMENT_QUESTIONS_SUCCESS } from "../actions/index.js";
+import { baseURLStatic } from "../utils/index.js";
 
 const StyledCard = styled.div`
   padding: 5px;
@@ -82,7 +83,7 @@ function PreviewCard({
               </div>
             );
           })} */}
-          <Image src={imgURL} />
+          <Image src={baseURLStatic + question.fileName + ".jpg"} />
           <Button onClick={() => handleClick(question.fileName, index)}>
             Remove Question
           </Button>
