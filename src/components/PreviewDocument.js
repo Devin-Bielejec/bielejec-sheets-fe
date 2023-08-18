@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { shuffle } from "../utils/index";
+import { Button } from "./Styles.js";
+import DeleteButton from "./DeleteButton.js";
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -72,15 +74,13 @@ function PreviewDocument({
   return (
     <Section>
       <h1>Preview Your Document</h1>
-      <button onClick={handleShuffle}>Shuffle Questions</button>
-      <button onClick={() => handleConfirmation(false)}>
-        Remove All Questions
-      </button>
+      <Button onClick={handleShuffle}>Shuffle Questions</Button>
+      <DeleteButton all={true} handleConfirmation={handleConfirmation} />
       {showConfirmation && (
         <section>
           Do you want to delete all?
-          <button onClick={() => handleConfirmation(true)}>Cancel</button>
-          <button onClick={handleRemoveAll}>Yes</button>
+          <Button onClick={() => handleConfirmation(true)}>Cancel</Button>
+          <Button onClick={handleRemoveAll}>Yes</Button>
         </section>
       )}
       <DragDropContext onDragEnd={onDragEnd}>
