@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { shuffle } from "../utils/index";
 import { Button } from "./Styles.js";
-import DeleteButton from "./DeleteButton.js";
+import ActionButton from "./ActionButton.js";
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -28,6 +28,24 @@ const Section = styled.section`
   flex-direction: column;
   width: 50%;
   margin: 0 auto;
+`;
+
+const ShuffleButton = styled(Button)`
+  border: 0px;
+  border-radius: 20%;
+`;
+
+const PreviewButtons = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 50px;
+  padding: 0 50px 0 50px;
+`;
+
+const Confirmation = styled.section`
+  grid-column-start: 1;
+  grid-column-end: 3;
 `;
 
 function PreviewDocument({
@@ -74,15 +92,22 @@ function PreviewDocument({
   return (
     <Section>
       <h1>Preview Your Document</h1>
-      <Button onClick={handleShuffle}>Shuffle Questions</Button>
-      <DeleteButton all={true} handleConfirmation={handleConfirmation} />
-      {showConfirmation && (
-        <section>
-          Do you want to delete all?
-          <Button onClick={() => handleConfirmation(true)}>Cancel</Button>
-          <Button onClick={handleRemoveAll}>Yes</Button>
-        </section>
-      )}
+      <PreviewButtons>
+        <ActionButton name="shuffle" handleClick={handleShuffle} />
+        <ActionButton
+          name="delete"
+          handleClick={handleConfirmation}
+          all={true}
+        />
+        {showConfirmation && (
+          <Confirmation>
+            Do you want to delete all?
+            <Button onClick={() => handleConfirmation(true)}>Cancel</Button>
+            <Button onClick={handleRemoveAll}>Yes</Button>
+          </Confirmation>
+        )}
+      </PreviewButtons>
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
