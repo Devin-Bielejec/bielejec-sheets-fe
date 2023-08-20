@@ -3,7 +3,7 @@ import { Button } from "./Styles";
 import { BsTrash3Fill, BsShuffle } from "react-icons/bs";
 import styled from "styled-components";
 
-const DeleteIconContainer = styled.div`
+const IconContainer = styled.div`
   text-align: center;
   background-color: white;
   font-size: 50px;
@@ -17,21 +17,38 @@ const DeleteIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  grid-row: 2 / span 2;
+  grid-column: 2 / span 2;
 `;
 
 const ButtonStyled = styled(Button)`
+  max-width: 100%;
+  margin-top: 0px;
   border: 0px;
-  border-radius: 20%;
+  // display: grid;
+  // grid-template-rows: 1fr 1fr 1fr 1fr;
+  // grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Text = styled.p`
+  grid-row-start: 4;
+  grid-column: 2 / span 2;
+  padding: 0px;
+  line-height: 0px;
 `;
 function ActionButton({ name, all, handleClick, ...rest }) {
   return (
     <ButtonStyled>
-      <DeleteIconContainer
+      <IconContainer
         onClick={() => (name == "delete" ? handleClick(false) : handleClick())}
       >
         {name == "delete" ? <BsTrash3Fill /> : <BsShuffle />}
-      </DeleteIconContainer>
-      <p>{name == "delete" ? "Delete All" : "Shuffle"}</p>
+      </IconContainer>
+      <Text>{name == "delete" ? "Delete All" : "Shuffle"}</Text>
     </ButtonStyled>
   );
 }

@@ -30,11 +30,6 @@ const Section = styled.section`
   margin: 0 auto;
 `;
 
-const ShuffleButton = styled(Button)`
-  border: 0px;
-  border-radius: 20%;
-`;
-
 const PreviewButtons = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
