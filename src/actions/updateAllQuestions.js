@@ -14,6 +14,7 @@ export const updateAllQuestions = (data) => (dispatch) => {
   //     ? "https://bestplacesbe-test.herokuapp.com/city/spec-ds"
   //     : "https://bestplacesbe-test.herokuapp.com/city/ds";
   //   console.log(url);
+  console.log("update all questions");
   const url = `${baseURL}/questions`;
   return axiosWithAuth()
     .get(url)

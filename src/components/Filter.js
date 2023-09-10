@@ -62,7 +62,11 @@ function Filter({
   updateDisplayedQuestions,
   ...rest
 }) {
-  let [selectState, setSelectState] = React.useState(() => {
+  let [selectState, setSelectState] = React.useState([]);
+
+  //set default select state when allquestions are changed
+  React.useEffect(() => {
+    console.log("this is triggered");
     let subjects = getUniqueNamesBy("subject", allQuestions);
     let startingSubject = subjects[0];
 
@@ -90,17 +94,16 @@ function Filter({
       ])
     );
     let startingSubSkill = subSkills[0];
-    return {
+    setSelectState({
       subject: { items: subjects, current: startingSubject },
       topic: { items: topics, current: startingTopic },
       skill: { items: skills, current: startingSkill },
       subSkill: { items: subSkills, current: startingSubSkill },
-    };
-  });
+    });
+  }, [allQuestions]);
 
   React.useEffect(() => {
-    console.log("useeffect", allQuestions);
-    console.log("select state", selectState);
+    console.log("filter use effect", allQuestions);
     //filter of displayed questions for subject, topic, and skill
     updateDisplayedQuestions(
       allQuestions.filter((item) => {
@@ -123,7 +126,7 @@ function Filter({
         return subjectMatch && topicMatch && skillMatch && subSkillMatch;
       })
     );
-  }, [selectState]);
+  }, [selectState, allQuestions]);
 
   function handleSelect(e) {
     let attribute = e.target.name;
