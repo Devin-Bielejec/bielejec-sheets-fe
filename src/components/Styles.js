@@ -89,3 +89,9 @@ export const StyledLink = styled(Link)`
 export const Text = styled.p`
   font-size: ${({ fontSize }) => fontSize || "1rem"};
 `;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 3vw;
+  object-fit: contain;
+`;
