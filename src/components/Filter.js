@@ -62,7 +62,42 @@ function Filter({
   updateDisplayedQuestions,
   ...rest
 }) {
-  let [selectState, setSelectState] = React.useState([]);
+  let [selectState, setSelectState] = React.useState(() => {
+    console.log("select state", allQuestions);
+    let subjects = getUniqueNamesBy("subject", allQuestions);
+    let startingSubject = subjects[0];
+
+    let topics = getUniqueNamesBy(
+      "topic",
+      filterBy(allQuestions, [["subject", startingSubject]])
+    );
+    let startingTopic = topics[0];
+
+    let skills = getUniqueNamesBy(
+      "skill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+      ])
+    );
+    let startingSkill = skills[0];
+
+    let subSkills = getUniqueNamesBy(
+      "subSkill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["skill", startingSkill],
+      ])
+    );
+    let startingSubSkill = subSkills[0];
+    return {
+      subject: { items: subjects, current: startingSubject },
+      topic: { items: topics, current: startingTopic },
+      skill: { items: skills, current: startingSkill },
+      subSkill: { items: subSkills, current: startingSubSkill },
+    };
+  });
 
   //set default select state when allquestions are changed
   React.useEffect(() => {
