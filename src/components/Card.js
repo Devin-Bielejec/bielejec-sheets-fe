@@ -14,29 +14,9 @@ import {
   Text,
   Button,
   Image,
+  CheckBox,
 } from "./Styles";
 import NumberInput from "./NumberInput.js";
-
-const DifficultyButton = styled.button`
-  background-color: white;
-  color: black;
-  width: 3rem;
-  height: 3rem;
-  border-color: gray;
-  border: 1px solid;
-  &:hover {
-    cursor: pointer;
-    border: 3px solid black;
-  }
-`;
-
-const ButtonsGroup = styled.div`
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 10px 30px;
-`;
 
 function Card({
   documentQuestions,
@@ -84,17 +64,28 @@ function Card({
             alignItems="center"
           >
             <h3>Choose Difficulty: </h3>
-            <ButtonsGroup>
+            <Flex
+              width="80%"
+              flexDirection="row"
+              margin="10px 30px"
+              justifyContent="space-around"
+            >
               {questionGroup.map((i) => (
-                <DifficultyButton
+                <CheckBox
+                  margin="0.75em 0.25em 0em 0.25em"
+                  backgroundColor="white"
+                  color="#4e4eb2"
                   difficulty={i.kwargs.difficulty}
                   id={i.fileName}
+                  selected={
+                    currentQuestion.kwargs.difficulty == i.kwargs.difficulty
+                  }
                   onClick={() => handleChangeDifficultyClick(i.fileName)}
                 >
                   {i.kwargs.difficulty}
-                </DifficultyButton>
+                </CheckBox>
               ))}
-            </ButtonsGroup>
+            </Flex>
           </Flex>
         )}
         <NumberInput
