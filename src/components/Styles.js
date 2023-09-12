@@ -8,12 +8,14 @@ export const Flex = styled.div`
   flex-direction: ${({ flexDirection }) => flexDirection || "row"};
   justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
   align-items: ${({ alignItems }) => alignItems || "flex-start"};
+  user-select: ${({ userSelect }) => userSelect || ""};
 `;
 
 export const Background = styled.div`
   max-width: 400px;
   padding: 3em 6em;
-  background-color: #fcfbfa;
+  background-color: ${({ backgroundColor }) => backgroundColor || "#fcfbfa"};
+  border: ${({ border }) => border || ""};
   margin-top: 4em;
   box-shadow: 8px 6px 10px rgba(0, 0, 0, 0.3);
 `;

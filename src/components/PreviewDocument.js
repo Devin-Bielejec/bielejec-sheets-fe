@@ -86,7 +86,7 @@ function PreviewDocument({
 
   return (
     <Section>
-      <h1>Preview Your Document</h1>
+      <h1>Preview Your Questions</h1>
       <PreviewButtons>
         <ActionButton name="shuffle" handleClick={handleShuffle} />
         <ActionButton
