@@ -33,7 +33,6 @@ const Section = styled.section`
 const PreviewButtons = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   grid-gap: 50px;
   padding: 0 50px 0 50px;
 `;

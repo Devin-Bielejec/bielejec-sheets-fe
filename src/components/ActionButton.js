@@ -25,9 +25,6 @@ const ButtonStyled = styled(Button)`
   max-width: 100%;
   margin-top: 0px;
   border: 0px;
-  // display: grid;
-  // grid-template-rows: 1fr 1fr 1fr 1fr;
-  // grid-template-columns: 1fr 1fr 1fr 1fr;
   display: flex;
   flex-direction: column;
   justify-content: center;
