@@ -22,7 +22,7 @@ export const updateAllQuestions = (data) => (dispatch) => {
       dispatch({
         type: UPDATE_ALL_QUESTIONS_SUCCESS,
         payload: {
-          allQuestions: res.data,
+          allQuestions: JSON.parse(res.data),
         },
       });
       return true;

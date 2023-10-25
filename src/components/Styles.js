@@ -13,7 +13,7 @@ export const Flex = styled.div`
 
 export const Background = styled.div`
   max-width: 400px;
-  padding: 3em 6em;
+  padding: ${({ padding }) => padding || "3em 6em"};
   background-color: ${({ backgroundColor }) => backgroundColor || "#fcfbfa"};
   border: ${({ border }) => border || ""};
   margin-top: 4em;

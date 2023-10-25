@@ -24,12 +24,12 @@ export default function Login() {
   let history = useHistory();
 
   const onSubmit = (data) => {
-    const username = data.username;
+    const email = data.email;
     const password = data.password;
 
     axios
-      .post(`${baseURL}/auth/login/`, {
-        username: username,
+      .post(`${baseURL}/login`, {
+        email: email,
         password: password,
       })
       .then((res) => {
@@ -50,11 +50,11 @@ export default function Login() {
           <h2>Login</h2>
           {invalidLogin && <p>Invalid Login, please try again!</p>}
           <StyledInput
-            name="username"
-            placeholder="Username"
+            name="email"
+            placeholder="Email"
             ref={register({ required: true })}
           />
-          {errors.username && <Warning>This field is required</Warning>}
+          {errors.email && <Warning>This field is required</Warning>}
 
           <StyledInput
             name="password"
@@ -62,7 +62,7 @@ export default function Login() {
             type="password"
             ref={register({ required: true })}
           />
-          {errors.username && <Warning>This field is required</Warning>}
+          {errors.email && <Warning>This field is required</Warning>}
 
           <SubmitButton type="submit" disabled={!formState.isValid}>
             Login
