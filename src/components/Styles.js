@@ -9,6 +9,7 @@ export const Flex = styled.div`
   justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
   align-items: ${({ alignItems }) => alignItems || "flex-start"};
   user-select: ${({ userSelect }) => userSelect || ""};
+  font-family: ${({ fontFamily }) => fontFamily || "Arial, sans-serif"};
 `;
 
 export const Background = styled.div`

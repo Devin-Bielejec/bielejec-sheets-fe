@@ -16,14 +16,25 @@ import {
 import NumberInput from "./NumberInput.js";
 
 export default function Testimonial({ text, author, ...rest }) {
+  const [showFullText, setShowFullText] = React.useState(false);
+
+  const textChange = () => {
+    setShowFullText(true);
+  };
+
   return (
     <Flex margin="20px" justifyContent="center">
       <Background>
-        <Flex
-          flexDirection="column"
-          justifyContent="space-between"
-          alignItems="center"
-        ></Flex>
+        <Flex flexDirection="column" alignItems="center" fontFamily="Georgia">
+          {!showFullText && (
+            <>
+              <p>"{text.slice(0, 200)}..."</p>
+              <StyledLink onClick={textChange}>Show More</StyledLink>
+            </>
+          )}
+          {showFullText && <p>"{text}..."</p>}
+          <p>-{author}</p>
+        </Flex>
       </Background>
     </Flex>
   );

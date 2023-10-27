@@ -24,6 +24,7 @@ const TestimonialContainer = styled(Flex)`
 
 const Main = styled(Flex)`
   display: flex;
+  flex-direction: column;
 `;
 
 const LandingPage = (props) => {
@@ -73,7 +74,7 @@ const LandingPage = (props) => {
           my={"40px"}
           p={`0px 15px`}
         >
-          {testimonials.map((i, testimonial) => {
+          {testimonials.map((testimonial, i) => {
             return (
               <Testimonial
                 id={i}
