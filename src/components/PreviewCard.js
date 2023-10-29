@@ -1,31 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
-import { Button } from "./Styles.js";
+import { Background, Button, Flex, Image } from "./Styles.js";
 
 import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { UPDATE_DOCUMENT_QUESTIONS_SUCCESS } from "../actions/index.js";
-
-const StyledCard = styled.div`
-  padding: 5px;
-  width: 50%;
-  border: 1px solid black;
-  border-radius: 15px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  user-select: none;
-  background-color: ${(props) => (props.isDragging ? "lightgrey" : "")};
-  //not putting default draggingStyles
-`;
-
-const Image = styled.img`
-  width: 90%;
-`;
+import { baseURLStatic } from "../utils/index.js";
 
 const IndexTitle = styled.h2`
   align-self: start;
@@ -41,7 +22,6 @@ function PreviewCard({
 }) {
   const id = question.fileName;
   const imgURL = question.fileName;
-  console.log(question);
 
   const handleClick = (fileName, index) => {
     //remove question
@@ -57,37 +37,30 @@ function PreviewCard({
       draggableId={`item-${index}`}
       index={index}
     >
-      {(provided, snapshot) => (
-        <StyledCard
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          isDragging={snapshot.isDragging}
-          draggableStyles={provided.draggableProps.style}
-        >
-          <IndexTitle>{index + 1}</IndexTitle>
-          {/* {Object.keys(question.kwargs).map((kwarg) => {
-            return (
-              <div>
-                {Object.keys(question.kwargs[kwarg]).map((option) => {
-                  console.log(option);
-                  if (question.kwargs[kwarg][option].selected) {
-                    return (
-                      <p key={option}>
-                        {kwarg}:{question.kwargs[kwarg][option].value}
-                      </p>
-                    );
-                  }
-                })}
-              </div>
-            );
-          })} */}
-          <Image src={imgURL} />
-          <Button onClick={() => handleClick(question.fileName, index)}>
-            Remove Question
-          </Button>
-        </StyledCard>
-      )}
+      {(provided, snapshot) => {
+        console.log(snapshot.isDragging);
+        return (
+          <Flex
+            userSelect="none"
+            flexDirection="column"
+            justifyContent="space-between"
+            alignItems="center"
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            isDragging={snapshot.isDragging}
+            draggableStyles={provided.draggableProps.style}
+          >
+            <Background border={snapshot.isDragging ? "1px solid grey" : ""}>
+              <IndexTitle>{index + 1}</IndexTitle>
+              <Image src={baseURLStatic + question.fileName + ".jpg"} />
+              <Button onClick={() => handleClick(question.fileName, index)}>
+                Remove Question
+              </Button>
+            </Background>
+          </Flex>
+        );
+      }}
     </Draggable>
   );
 }

@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import { createGlobalStyle } from "styled-components";
 import CreateDocument from "./components/CreateDocument.js";
 import PreviewDocument from "./components/PreviewDocument.js";
+import LandingPage from "./components/LandingPage.js";
 
 const Global = createGlobalStyle` 
 /* apply a natural box layout model to all elements, but allowing components to change */
@@ -42,8 +43,12 @@ function App() {
               <Register />
             </Route>
 
-            <Route exact path="/">
+            <Route exact path="/search">
               <Search />
+            </Route>
+
+            <Route exact path="/">
+              <LandingPage />
             </Route>
 
             <Route path="/preview">

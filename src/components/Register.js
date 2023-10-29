@@ -9,29 +9,29 @@ import {
   Form,
   SubmitButton,
   StyledInput,
-  Warning
+  Warning,
 } from "./Styles";
 
 export default function Register() {
   const { register, handleSubmit, formState, errors } = useForm({
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const history = useHistory();
-  const onSubmit = data => {
-    const username = data.username;
+  const onSubmit = (data) => {
+    const email = data.email;
     const password = data.password;
 
     axios
-      .post(`${baseURL}/auth/register/`, {
-        username: username,
-        password: password
+      .post(`${baseURL}/register`, {
+        email: email,
+        password: password,
       })
-      .then(res => {
-        localStorage.setItem("token", res.data.key);
+      .then((res) => {
+        localStorage.setItem("token", res.data.access_token);
         history.push("/");
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -40,11 +40,11 @@ export default function Register() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h2>Register</h2>
           <StyledInput
-            placeholder="Username"
-            name="username"
+            placeholder="Email"
+            name="email"
             ref={register({ required: true, minLength: 4 })}
           />
-          {errors.username && <Warning>This field is required</Warning>}
+          {errors.email && <Warning>This field is required</Warning>}
 
           <StyledInput
             placeholder="Password"
@@ -52,7 +52,7 @@ export default function Register() {
             type="password"
             ref={register({ required: true, minLength: 9 })}
           />
-          {errors.username && <Warning>This field is required</Warning>}
+          {errors.email && <Warning>This field is required</Warning>}
 
           <SubmitButton type="submit" disabled={!formState.isValid}>
             Register

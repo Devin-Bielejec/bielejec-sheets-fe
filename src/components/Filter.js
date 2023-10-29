@@ -63,6 +63,7 @@ function Filter({
   ...rest
 }) {
   let [selectState, setSelectState] = React.useState(() => {
+    console.log("select state", allQuestions);
     let subjects = getUniqueNamesBy("subject", allQuestions);
     let startingSubject = subjects[0];
 
@@ -98,9 +99,46 @@ function Filter({
     };
   });
 
+  //set default select state when allquestions are changed
   React.useEffect(() => {
-    console.log("useeffect", allQuestions);
-    console.log("select state", selectState);
+    console.log("this is triggered");
+    let subjects = getUniqueNamesBy("subject", allQuestions);
+    let startingSubject = subjects[0];
+
+    let topics = getUniqueNamesBy(
+      "topic",
+      filterBy(allQuestions, [["subject", startingSubject]])
+    );
+    let startingTopic = topics[0];
+
+    let skills = getUniqueNamesBy(
+      "skill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+      ])
+    );
+    let startingSkill = skills[0];
+
+    let subSkills = getUniqueNamesBy(
+      "subSkill",
+      filterBy(allQuestions, [
+        ["subject", startingSubject],
+        ["topic", startingTopic],
+        ["skill", startingSkill],
+      ])
+    );
+    let startingSubSkill = subSkills[0];
+    setSelectState({
+      subject: { items: subjects, current: startingSubject },
+      topic: { items: topics, current: startingTopic },
+      skill: { items: skills, current: startingSkill },
+      subSkill: { items: subSkills, current: startingSubSkill },
+    });
+  }, [allQuestions]);
+
+  React.useEffect(() => {
+    console.log("filter use effect", allQuestions);
     //filter of displayed questions for subject, topic, and skill
     updateDisplayedQuestions(
       allQuestions.filter((item) => {
@@ -123,7 +161,7 @@ function Filter({
         return subjectMatch && topicMatch && skillMatch && subSkillMatch;
       })
     );
-  }, [selectState]);
+  }, [selectState, allQuestions]);
 
   function handleSelect(e) {
     let attribute = e.target.name;

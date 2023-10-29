@@ -12,7 +12,7 @@ const FooterStyled = styled.footer`
 export default function Footer() {
   return (
     <FooterStyled>
-      <p>Tomatoe Pie Coders &copy; {date.getFullYear()}</p>
+      <p>Devin Bielejec &copy; {date.getFullYear()}</p>
     </FooterStyled>
   );
 }

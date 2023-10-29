@@ -26,16 +26,17 @@ function Search({
   React.useEffect(() => {
     updateAllQuestions();
   }, []);
+
+  console.log("displayed Questions", displayedQuestions);
   return (
     <>
-      <h1>Search!</h1>
       <Main>
         <Filter />
         {displayedQuestions && displayedQuestions.length > 0 && (
           <DisplayedQuestions>
             {displayedQuestions.length > 0 &&
-              displayedQuestions.map((question, i) => (
-                <Card question={question} key={i} />
+              displayedQuestions.map((questionGroup, i) => (
+                <Card questionGroup={questionGroup} key={i} />
               ))}
           </DisplayedQuestions>
         )}
