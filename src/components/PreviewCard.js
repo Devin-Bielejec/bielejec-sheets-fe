@@ -22,7 +22,6 @@ function PreviewCard({
 }) {
   const id = question.fileName;
   const imgURL = question.fileName;
-  console.log(question);
 
   const handleClick = (fileName, index) => {
     //remove question

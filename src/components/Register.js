@@ -28,7 +28,7 @@ export default function Register() {
         password: password,
       })
       .then((res) => {
-        localStorage.setItem("token", res.data.key);
+        localStorage.setItem("token", res.data.access_token);
         history.push("/");
       })
       .catch((err) => console.log(err));

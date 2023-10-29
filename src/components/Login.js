@@ -33,8 +33,7 @@ export default function Login() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data.key);
+        localStorage.setItem("token", res.data.access_token);
         history.push("/");
       })
       .catch((err) => {

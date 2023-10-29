@@ -12,13 +12,13 @@ export const baseURLStatic =
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   return axios.create({
     baseURL: baseURL,
-    // headers: {
-    //   Authorization: `Token ${token}`,
-    // },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 };
 

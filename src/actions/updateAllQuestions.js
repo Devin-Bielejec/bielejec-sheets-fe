@@ -19,10 +19,11 @@ export const updateAllQuestions = (data) => (dispatch) => {
   return axiosWithAuth()
     .get(url)
     .then((res) => {
+      console.log(res);
       dispatch({
         type: UPDATE_ALL_QUESTIONS_SUCCESS,
         payload: {
-          allQuestions: JSON.parse(res.data),
+          allQuestions: res.data,
         },
       });
       return true;
