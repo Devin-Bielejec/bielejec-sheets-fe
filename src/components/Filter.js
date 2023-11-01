@@ -135,7 +135,7 @@ function Filter({
       skill: { items: skills, current: startingSkill },
       subSkill: { items: subSkills, current: startingSubSkill },
     });
-  }, [allQuestions]);
+  }, [allQuestions, updateDisplayedQuestions]);
 
   React.useEffect(() => {
     console.log("filter use effect", allQuestions);
@@ -169,7 +169,7 @@ function Filter({
 
     let curSubject, curSkill, curTopic, curSubSkill;
     let subjects, topics, skills, subSkills;
-    if (attribute == "subject") {
+    if (attribute === "subject") {
       curSubject = value;
       topics = getUniqueNamesBy(
         "topic",
@@ -193,7 +193,7 @@ function Filter({
         ])
       );
       curSubSkill = subSkills[0];
-    } else if (attribute == "topic") {
+    } else if (attribute === "topic") {
       subjects = getUniqueNamesBy("subject", allQuestions);
       curSubject = selectState.subject.current;
       curTopic = value;
@@ -215,7 +215,7 @@ function Filter({
       );
       curSubSkill = subSkills[0];
       console.log(subSkills);
-    } else if (attribute == "skill") {
+    } else if (attribute === "skill") {
       subjects = getUniqueNamesBy("subject", allQuestions);
 
       //get previous values from state
@@ -234,7 +234,7 @@ function Filter({
       );
       console.log(subSkills);
       curSubSkill = subSkills[0];
-    } else if (attribute == "subSkill") {
+    } else if (attribute === "subSkill") {
       curSubSkill = value;
     }
     console.log(curSubSkill, !curSubSkill);

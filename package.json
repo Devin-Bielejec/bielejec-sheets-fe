@@ -3,21 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "v18.12.1",
-    "npm": "9.1.2"
+    "node": "v20.9.0",
+    "npm": "10.1.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.23.2",
+    "@babel/runtime-corejs2": "^7.23.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "core-js": "^2.6.12",
     "react": "^16.12.0",
     "react-beautiful-dnd": "^12.2.0",
     "react-dom": "^16.12.0",
     "react-hook-form": "^4.9.3",
     "react-icons": "^4.10.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "^5.0.1",
     "react-svg-spinner": "^1.0.4",
     "reduce-reducers": "^1.0.4",
     "redux-thunk": "^2.3.0",
