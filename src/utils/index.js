@@ -2,13 +2,13 @@ import axios from "axios";
 
 export const baseURL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://bielejec-sheets-r4p9qt61a-devinbielejec.vercel.app";
+    ? "https://bielejec-sheets-be.vercel.app"
+    : "https://bielejec-sheets-be.vercel.app";
 
 export const baseURLStatic =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://bielejec-sheets-r4p9qt61a-devinbielejec.vercel.app";
+    ? "https://bielejec-sheets-be.vercel.app"
+    : "https://bielejec-sheets-be.vercel.app";
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {
