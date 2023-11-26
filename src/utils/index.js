@@ -2,13 +2,13 @@ import axios from "axios";
 
 export const baseURL =
   process.env.NODE_ENV === "development"
-    ? "https://bielejec-sheets-d1sasvboc-devinbielejec.vercel.app"
-    : "https://bielejec-sheets-d1sasvboc-devinbielejec.vercel.app";
+    ? "http://localhost:5000"
+    : "https://bielejec-sheets-r4p9qt61a-devinbielejec.vercel.app";
 
 export const baseURLStatic =
   process.env.NODE_ENV === "development"
-    ? "https://bielejec-sheets-d1sasvboc-devinbielejec.vercel.app"
-    : "https://bielejec-sheets-d1sasvboc-devinbielejec.vercel.app";
+    ? "http://localhost:5000"
+    : "https://bielejec-sheets-r4p9qt61a-devinbielejec.vercel.app";
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {
@@ -18,7 +18,6 @@ export const axiosWithAuth = () => {
     baseURL: baseURL,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
     },
   });
 };
