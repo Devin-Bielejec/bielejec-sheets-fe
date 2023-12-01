@@ -55,7 +55,7 @@ function Card({
   return (
     <Flex margin="20px" justifyContent="center" key={id} id={id}>
       <Background>
-        <Image src={baseURLStatic + currentQuestion.fileName + ".jpg"} />
+        <Image src={baseURLStatic + "/" + currentQuestion.fileName + ".jpg"} />
 
         {questionGroup[0].kwargs.difficulty && (
           <Flex
