@@ -13,58 +13,10 @@ import {
   StyledLink,
   Text,
   Button,
+  Image,
+  CheckBox,
 } from "./Styles";
 import NumberInput from "./NumberInput.js";
-
-const StyledCard = styled.div`
-  width: 40%;
-  border: 1px solid black;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 400px;
-  background-color: white;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  max-width: 400px;
-  object-fit: contain;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid gray;
-`;
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-const DifficultyButton = styled.button`
-  background-color: white;
-  color: black;
-  width: 3rem;
-  height: 3rem;
-  border-color: gray;
-  border: 1px solid;
-  &:hover {
-    cursor: pointer;
-    border: 3px solid black;
-  }
-`;
-
-const ButtonsGroup = styled.div`
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 10px 30px;
-`;
 
 function Card({
   documentQuestions,
@@ -101,30 +53,48 @@ function Card({
   };
 
   return (
-    <StyledCard key={id} id={id}>
-      <Image src={baseURLStatic + currentQuestion.fileName + ".jpg"} />
-      {questionGroup[0].kwargs.difficulty && (
-        <Container>
-          <h3>Choose Difficulty: </h3>
-          <ButtonsGroup>
-            {questionGroup.map((i) => (
-              <DifficultyButton
-                difficulty={i.kwargs.difficulty}
-                id={i.fileName}
-                onClick={() => handleChangeDifficultyClick(i.fileName)}
-              >
-                {i.kwargs.difficulty}
-              </DifficultyButton>
-            ))}
-          </ButtonsGroup>
-        </Container>
-      )}
-      <NumberInput
-        questionCount={questionCount}
-        handleQuestionCountChange={handleQuestionCountChange}
-      />
-      <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
-    </StyledCard>
+    <Flex margin="20px" justifyContent="center" key={id} id={id}>
+      <Background>
+        <Image src={baseURLStatic + "/" + currentQuestion.fileName + ".jpg"} />
+
+        {questionGroup[0].kwargs.difficulty && (
+          <Flex
+            flexDirection="column"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <h3>Choose Difficulty: </h3>
+            <Flex
+              width="80%"
+              flexDirection="row"
+              margin="10px 30px"
+              justifyContent="space-around"
+            >
+              {questionGroup.map((i) => (
+                <CheckBox
+                  margin="0.75em 0.25em 0em 0.25em"
+                  backgroundColor="white"
+                  color="#4e4eb2"
+                  difficulty={i.kwargs.difficulty}
+                  id={i.fileName}
+                  selected={
+                    currentQuestion.kwargs.difficulty == i.kwargs.difficulty
+                  }
+                  onClick={() => handleChangeDifficultyClick(i.fileName)}
+                >
+                  {i.kwargs.difficulty}
+                </CheckBox>
+              ))}
+            </Flex>
+          </Flex>
+        )}
+        <NumberInput
+          questionCount={questionCount}
+          handleQuestionCountChange={handleQuestionCountChange}
+        />
+        <Button onClick={() => handleAddQuestionClick()}>Add Questions</Button>
+      </Background>
+    </Flex>
   );
 }
 

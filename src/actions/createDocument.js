@@ -18,9 +18,6 @@ export const createDocument = (data) => (dispatch) => {
   return axiosWithAuth()
     .post(url, { data })
     .then((res) => {
-      console.log("ACTION", res, data);
-      console.log(baseURL);
-
       dispatch({
         type: CREATE_DOCUMENT_SUCCESS,
         payload: {

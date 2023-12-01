@@ -7,7 +7,7 @@ const NavBar = styled.nav`
   justify-content: center;
   width: 100%;
   padding: 20px 0;
-  background-color: lightgrey;
+  background-color: white;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -18,10 +18,10 @@ const StyledNavLink = styled(NavLink)`
   margin: 0 15px;
 `;
 
-export default function() {
+export default function () {
   return (
     <NavBar>
-      <StyledNavLink to="/">Search</StyledNavLink>
+      <StyledNavLink to="/search">Search</StyledNavLink>
       <StyledNavLink to="/preview">Preview</StyledNavLink>
       <StyledNavLink to="/create">Create</StyledNavLink>
       <StyledNavLink to="/login">Login</StyledNavLink>

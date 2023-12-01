@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateDocumentQuestions } from "../actions/updateDocumentQuestions.js.js";
 import { shuffle } from "../utils/index";
+import { Button } from "./Styles.js";
+import ActionButton from "./ActionButton.js";
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -28,11 +30,36 @@ const Section = styled.section`
   margin: 0 auto;
 `;
 
+const PreviewButtons = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+  padding: 0 50px 0 50px;
+`;
+
+const Confirmation = styled.section`
+  grid-column-start: 1;
+  grid-column-end: 3;
+`;
+
 function PreviewDocument({
   documentQuestions,
   updateDocumentQuestions,
   ...rest
 }) {
+  //For confirmation on removing questions
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+
+  function handleRemoveAll(e) {
+    console.log(e);
+
+    updateDocumentQuestions([]);
+  }
+
+  function handleConfirmation(b) {
+    setShowConfirmation(!b);
+  }
+
   function onDragEnd(result) {
     // dropped outside the list
     if (!result.destination) {
@@ -52,20 +79,29 @@ function PreviewDocument({
     updateDocumentQuestions(shuffle(documentQuestions));
   }
 
-  function handleRemove() {
-    if (window.confirm("ya?")) {
-      updateDocumentQuestions([]);
-    }
-  }
   if (documentQuestions.length === 0) {
     return <p>No items!</p>;
   }
 
   return (
     <Section>
-      <h1>Preview Your Document</h1>
-      <button onClick={handleShuffle}>Shuffle Questions</button>
-      <button onClick={handleRemove}>Remove All Questions</button>
+      <h1>Preview Your Questions</h1>
+      <PreviewButtons>
+        <ActionButton name="shuffle" handleClick={handleShuffle} />
+        <ActionButton
+          name="delete"
+          handleClick={handleConfirmation}
+          all={true}
+        />
+        {showConfirmation && (
+          <Confirmation>
+            Do you want to delete all?
+            <Button onClick={() => handleConfirmation(true)}>Cancel</Button>
+            <Button onClick={handleRemoveAll}>Yes</Button>
+          </Confirmation>
+        )}
+      </PreviewButtons>
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (

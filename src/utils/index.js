@@ -2,23 +2,23 @@ import axios from "axios";
 
 export const baseURL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://bielejec-sheets-be.herokuapp.com";
+    ? "https://bielejec-sheets-be.vercel.app"
+    : "https://bielejec-sheets-be.vercel.app";
 
 export const baseURLStatic =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:5000/"
-    : "https://bielejec-sheets-be.herokuapp.com/";
+    ? "https://bielejec-sheets-be.vercel.app"
+    : "https://bielejec-sheets-be.vercel.app";
 
 //Makes axios call and send token if existing
 export const axiosWithAuth = () => {
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   return axios.create({
     baseURL: baseURL,
-    // headers: {
-    //   Authorization: `Token ${token}`,
-    // },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 };
 
