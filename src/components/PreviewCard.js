@@ -53,7 +53,7 @@ function PreviewCard({
           >
             <Background border={snapshot.isDragging ? "1px solid grey" : ""}>
               <IndexTitle>{index + 1}</IndexTitle>
-              <Image src={baseURLStatic + question.fileName + ".jpg"} />
+              <Image src={baseURLStatic + "/" + question.fileName + ".jpg"} />
               <Button onClick={() => handleClick(question.fileName, index)}>
                 Remove Question
               </Button>
