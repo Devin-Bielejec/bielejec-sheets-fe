@@ -43,91 +43,79 @@ function CreateDocument({
   };
   console.log(downloadLink, downloadName);
 
-  if (isLoggedIn) {
-    return (
-      <Flex justifyContent="center">
-        <Background>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Create Document</h2>
-            <StyledInput
-              name="nameOfDoc"
-              placeholder="Title For Document"
-              ref={register({ required: true })}
-            />
-            {errors.nameOfDoc && <Warning>This field is required</Warning>}
+  return (
+    <Flex justifyContent="center">
+      <Background>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <h2>Create Document</h2>
+          <StyledInput
+            name="nameOfDoc"
+            placeholder="Title For Document"
+            ref={register({ required: true })}
+          />
+          {errors.nameOfDoc && <Warning>This field is required</Warning>}
 
-            <label htmlFor="numberOfVersions">Number of Versions</label>
-            <StyledInput
-              name="numberOfVersions"
-              placeholder="Number of Versions"
-              type="number"
-              defaultValue={1}
-              ref={register({ required: true, min: 1 })}
-            />
-            {errors.numberOfVersions && (
-              <Warning>This field is required</Warning>
-            )}
+          <label htmlFor="numberOfVersions">Number of Versions</label>
+          <StyledInput
+            name="numberOfVersions"
+            placeholder="Number of Versions"
+            type="number"
+            defaultValue={1}
+            ref={register({ required: true, min: 1 })}
+          />
+          {errors.numberOfVersions && <Warning>This field is required</Warning>}
 
-            <label htmlFor="spacingBetween">
-              Spacing Between Questions (inches)
-            </label>
-            <StyledInput
-              name="spacingBetween"
-              placeholder="Spacing Between Questions"
-              type="number"
-              defaultValue={1}
-              ref={register({ required: false, min: 0 })}
-            />
-            {errors.spacingBetween}
+          <label htmlFor="spacingBetween">
+            Spacing Between Questions (inches)
+          </label>
+          <StyledInput
+            name="spacingBetween"
+            placeholder="Spacing Between Questions"
+            type="number"
+            defaultValue={1}
+            ref={register({ required: false, min: 0 })}
+          />
+          {errors.spacingBetween}
 
-            <label htmlFor="collatedAnswerKey">Collated Answer Keys</label>
-            <StyledInput
-              name="collatedAnswerKey"
-              placeholder="Collated Answer Keys"
-              type="checkbox"
-              defaultValue={true}
-              ref={register({ required: false })}
-            />
-            {errors.collatedAnswerKey}
+          <label htmlFor="collatedAnswerKey">Collated Answer Keys</label>
+          <StyledInput
+            name="collatedAnswerKey"
+            placeholder="Collated Answer Keys"
+            type="checkbox"
+            defaultValue={true}
+            ref={register({ required: false })}
+          />
+          {errors.collatedAnswerKey}
 
-            <label htmlFor="columns">Number of Columns</label>
-            <StyledInput
-              name="columns"
-              placeholder="Number of Columns"
-              type="number"
-              defaultValue={1}
-              ref={register({ required: false, min: 1, max: 5 })}
-            />
-            {errors.columns}
+          <label htmlFor="columns">Number of Columns</label>
+          <StyledInput
+            name="columns"
+            placeholder="Number of Columns"
+            type="number"
+            defaultValue={1}
+            ref={register({ required: false, min: 1, max: 5 })}
+          />
+          {errors.columns}
 
-            <SubmitButton type="submit" disabled={!formState.isValid}>
-              Create Document
-            </SubmitButton>
-            {isFetching && <p>Downloading in Progress...</p>}
-            {downloadLink && (
-              <div>
-                <a
-                  href={downloadLink}
-                  download={downloadName}
-                  rel="noreferrer noopener"
-                >
-                  Download!
-                </a>
-              </div>
-            )}
-          </Form>
-        </Background>
-      </Flex>
-    );
-  } else {
-    return (
-      <Flex justifyContent="center">
-        <Background>
-          <StyledLink to="/login">Login</StyledLink>
-        </Background>
-      </Flex>
-    );
-  }
+          <SubmitButton type="submit" disabled={!formState.isValid}>
+            Create Document
+          </SubmitButton>
+          {isFetching && <p>Downloading in Progress...</p>}
+          {downloadLink && (
+            <div>
+              <a
+                href={downloadLink}
+                download={downloadName}
+                rel="noreferrer noopener"
+              >
+                Download!
+              </a>
+            </div>
+          )}
+        </Form>
+      </Background>
+    </Flex>
+  );
 }
 
 const mapStateToProps = (state) => {
