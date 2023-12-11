@@ -60,7 +60,7 @@ const LandingPage = (props) => {
                 color="blue"
                 fontWeight="bold"
                 bg="rgba(255,255,255,1)"
-                to="/register"
+                to="/search"
               >
                 Get Started
               </StyledLink>

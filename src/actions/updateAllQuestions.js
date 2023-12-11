@@ -9,11 +9,6 @@ import { axiosWithAuth, baseURL } from "../utils/index";
 export const updateAllQuestions = (data) => (dispatch) => {
   dispatch({ type: UPDATE_ALL_QUESTIONS_INITIALIZE });
 
-  //   const token = sessionStorage.getItem("token");
-  //   const url = token
-  //     ? "https://bestplacesbe-test.herokuapp.com/city/spec-ds"
-  //     : "https://bestplacesbe-test.herokuapp.com/city/ds";
-  //   console.log(url);
   console.log("update all questions");
   const url = `${baseURL}/questions`;
   return axiosWithAuth()

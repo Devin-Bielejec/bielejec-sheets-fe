@@ -1,8 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { baseURL } from "../utils/index";
 import {
   Flex,
   Background,
@@ -13,33 +11,28 @@ import {
   StyledLink,
   Text,
 } from "./Styles";
+import { login } from "../actions/login.js";
+import { connect } from "react-redux";
 
-export default function Login() {
+function Login({ login, ...rest }) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange",
   });
 
+  const history = useHistory();
+
   const [invalidLogin, setInvalidLogin] = React.useState(false);
 
-  let history = useHistory();
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const email = data.email;
     const password = data.password;
+    const response = await login({ email, password });
 
-    axios
-      .post(`${baseURL}/login`, {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        localStorage.setItem("token", res.data.access_token);
-        history.push("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        setInvalidLogin(true);
-      });
+    if (response) {
+      history.push("/search");
+    } else {
+      setInvalidLogin(true);
+    }
   };
 
   return (
@@ -75,3 +68,5 @@ export default function Login() {
     </Flex>
   );
 }
+
+export default connect(null, { login })(Login);
