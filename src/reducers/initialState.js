@@ -4,6 +4,7 @@ const initialState = {
     //options etc
   },
   userID: 1,
+  isLoggedIn: false,
   displayedQuestions: [],
   allQuestions: [],
 };

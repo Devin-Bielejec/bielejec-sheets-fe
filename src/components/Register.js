@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { baseURL } from "../utils/index";
 import { useHistory } from "react-router-dom";
 import {
@@ -11,27 +10,24 @@ import {
   StyledInput,
   Warning,
 } from "./Styles";
+import { connect } from "react-redux";
+import { registerUser } from "../actions/register.js";
 
-export default function Register() {
+function Register({ registerUser, ...rest }) {
   const { register, handleSubmit, formState, errors } = useForm({
     mode: "onChange",
   });
 
   const history = useHistory();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const email = data.email;
     const password = data.password;
 
-    axios
-      .post(`${baseURL}/register`, {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        localStorage.setItem("token", res.data.access_token);
-        history.push("/");
-      })
-      .catch((err) => console.log(err));
+    const response = await registerUser({ email, password });
+
+    if (response) {
+      history.push("/search");
+    }
   };
 
   return (
@@ -62,3 +58,5 @@ export default function Register() {
     </Flex>
   );
 }
+
+export default connect(null, { registerUser })(Register);

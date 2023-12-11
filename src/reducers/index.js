@@ -1,7 +1,8 @@
 import updateAllQuestionsReducer from "./updateAllQuestions";
 import initialState from "../reducers/initialState";
 import reduceReducers from "reduce-reducers";
-// import loginReducer from "./login";
+import loginReducer from "./login";
+import registerReducer from "./register";
 // import removeQuestionReducer from "./removeQuestion";
 // import updateAllQuestionsReducer from "./updateAllQuestions";
 import updateDisplayedQuestionsReducer from "./updateDisplayedQuestions";
@@ -12,9 +13,10 @@ const reducer = reduceReducers(
   updateAllQuestionsReducer,
   updateDisplayedQuestionsReducer,
   updateDocumentQuestions,
-  createDocumentReducer
+  createDocumentReducer,
+  loginReducer,
+  registerReducer
   // addQuestionReducer,
-  // loginReducer,
   // removeQuestionReducer,
   // updateOrderReducer
 );
